@@ -1,0 +1,11 @@
+<odoo>
+    <data noupdate="1">
+        <record id="merge_device_sequence" model="ir.sequence">
+            <field name="name">Merge Device Sequence</field>
+            <field name="code">merge.device.sequence</field>
+            <field name="prefix">MD/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+    </data>
+</odoo>

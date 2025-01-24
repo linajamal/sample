@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+
+    <!-- <record id="project_task_view_tree_inherit" model="ir.ui.view">
+        <field name="name">project.task.tree.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.open_view_all_tasks_list_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="task_sequence" readonly="1" force_save="1"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="custom_state" readonly="1" force_save="1"/>
+                <field name="customer_id" readonly="1" force_save="1"/>
+                <field name="installation_date_time" readonly="1" force_save="1"/>
+                <field name="total_quantity" readonly="1" force_save="1"/>
+                <field name="vehicle_created" readonly="1" force_save="1"/>
+                <field name="remaining" readonly="1" force_save="1"/>
+                <field name="ready_to_confirm" readonly="1" force_save="1"/>
+                <field name="done" readonly="1" force_save="1"/>
+                <field name="sales_invoice_no" readonly="1" force_save="1"/>
+            </xpath>
+        </field>
+    </record> -->
+
+    <record id="project_task_view2_tree_inherit" model="ir.ui.view">
+        <field name="name">project.task.tree2.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="task_sequence" readonly="1" force_save="1"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="custom_state" readonly="1" force_save="1"/>
+                <field name="customer_id" readonly="1" force_save="1"/>
+                <field name="installation_date_time" readonly="1" force_save="1"/>
+                <field name="sales_invoice_no" readonly="1" force_save="1"/>
+                <field name="total_quantity" readonly="1" force_save="1"/>
+                <field name="vehicle_created" readonly="1" force_save="1"/>
+                <field name="remaining" readonly="1" force_save="1"/>
+                <field name="ready_to_confirm" readonly="1" force_save="1"/>
+                <field name="done" readonly="1" force_save="1"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="project_task_view_form_inherit" model="ir.ui.view">
+        <field name="name">project.task.form.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+            <div class="oe_button_box" name="button_box">>
+                <button name="action_fleet_vehicle" type="object"
+                        class="oe_stat_button" icon="fa-car" invisible="vehicle_count == 0">
+                    <field name="vehicle_count" widget="statinfo" string="Vehicles"/>
+                </button>
+            </div>
+            <xpath expr="//header" position="inside">
+                <button name="action_create_customer_vehicle" type="object" string="Create Customer Vehicle" 
+                        invisible="is_task_created == True" class="btn-primary"/>
+                <button name="action_submit" type="object" string="Submit"
+                invisible="is_task_completed != True" class="btn-primary" groups="pragtech_GPS_sales.group_operational_team"/>
+                <field name="custom_state" widget="statusbar"/>
+            </xpath>
+            <xpath expr="//div[@class='oe_title pe-0']/h1[@class='d-flex justify-content-between align-items-center']" position="before">
+                <h1 class="d-flex align-items-center">
+                    <field name="task_sequence"/>   
+                </h1>
+            </xpath>
+            <xpath expr="//page[@name='description_page']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='project']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <br></br>
+                <field name="customer_id" readonly="1" force_save="1" />
+                <field name="total_quantity" readonly="1" force_save="1"/>
+                <field name="remaining"/>
+                <field name="done"/>
+                <field name="ready_to_confirm"/>
+                <field name="vehicle_created"/>
+                <field name="vehicles_to_confirm_ids" invisible="1"/>
+                <field name="is_task_created" invisible="1"/>
+                <field name="is_task_completed" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='date_deadline']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="before">
+                <field name="assigned_to" readonly="custom_state != 'draft'" force_save="1" required="1"/>
+                <field name="installation_date_time" readonly="custom_state != 'draft'" force_save="1"/>
+                <field name="create_date"/>
+                <field name="create_uid"/>
+                <field name="sales_invoice_no" readonly="1" force_save="1"/>
+            </xpath>
+            <xpath expr="//field[@name='user_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='personal_stage_type_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <page name="description_page" position="before">
+                <page string="Items">
+                    <field name="line_ids">
+                        <list create="0" edit="0" delete="0">
+                            <field name="s_no" force_save="1"/>
+                            <field name="product_id" force_save="1"/>
+                            <field name="item_code" force_save="1"/>
+                            <field name="qty" force_save="1"/>
+                        </list>
+                    </field>
+                </page>
+            </page>
+            <page name="description_page" position="before">
+                <page string="Training Details">
+                    <group>
+                    <field name="is_training_required" readonly="1" force_save="1"/>
+                    <field name="reason" invisible="is_training_required == True" readonly="1" force_save="1"/>
+                </group>
+                </page>
+            </page>
+            <xpath expr="//page[@name='extra_info']" position="after">
+            <page name="note_page" string="Note">
+                <group>
+                    <field name="notes" readonly="custom_state != 'draft'" widget="text" string="Notes" />
+                </group>
+            </page>
+        </xpath>
+        </field>
+    </record>
+
+    <!-- <record id="project.open_view_my_task_list_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="30"/>
+    </record> -->
+
+    <record id="project.action_view_my_task" model="ir.actions.act_window">
+        <field name="domain">[('assigned_to', '=', uid)]</field>
+    </record>
+</data>
+</odoo>

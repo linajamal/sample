@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="action_merge_device" model="ir.actions.act_window">
+        <field name="name">Merge Device</field>
+        <field name="res_model">merge.device</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+    </record>
+
+    
+    <menuitem id="menu_merge_device" name="Merge Device" groups="pragtech_GPS_sales.group_technical_team,pragtech_GPS_sales.group_operational_team"
+    sequence="98" parent="stock.menu_stock_root" action="action_merge_device"/>
+
+    <record id="view_merge_device_form" model="ir.ui.view">
+        <field name="name">merge.device.form</field>
+        <field name="model">merge.device</field>
+        <field name="arch" type="xml">
+            <form string="Merge Device">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,merged"/>
+                    <button name="action_merge_device" data-hotkey="v" invisible="state == 'merged'"
+                    string="Merge" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Merged" invisible="state != 'merged'"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="merge_device_id" readonly="1" force_save="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                    <group>
+                        <field name="source_wh" readonly="state == 'merged'" force_save="1"/>
+                        <field name="device_code" readonly="state == 'merged'" force_save="1"/>
+                        <field name="device_imei" readonly="state == 'merged'" force_save="1"/>
+                        <field name="device_name" readonly="1" force_save="1"/>
+                        <field name="brand_id" readonly="1" force_save="1"/>
+                        <field name="description" widget="html" readonly="1" force_save="1"/>
+                    </group>
+                    <group>
+                        <field name="destination_wh" readonly="state == 'merged'" force_save="1"/>
+                        <field name="barcode" readonly="1" force_save="1"/>
+                        <field name="sim_code" readonly="state == 'merged'" force_save="1"/>
+                        <field name="sim_serial_no" readonly="state == 'merged'" force_save="1"/>
+                        <field name="operating_system" readonly="state == 'merged'" force_save="1"/>
+                    </group>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_merge_device_tree" model="ir.ui.view">
+        <field name="name">merge.device.tree</field>
+        <field name="model">merge.device</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="merge_device_id"/>
+                <field name="barcode"/>
+                <field name="source_wh"/>
+                <field name="destination_wh"/>
+                <field name="device_code"/>
+                <field name="device_imei"/>
+                <field name="device_name"/>
+                <field name="brand_id"/>
+                <field name="sim_code"/>
+                <field name="sim_serial_no"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

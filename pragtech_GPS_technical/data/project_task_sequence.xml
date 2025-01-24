@@ -1,0 +1,11 @@
+<odoo>
+    <data noupdate="1">
+        <record id="project_task_sequence" model="ir.sequence">
+            <field name="name">Project Task Sequence</field>
+            <field name="code">project.task.sequence</field>
+            <field name="prefix">TASK/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+    </data>
+</odoo>

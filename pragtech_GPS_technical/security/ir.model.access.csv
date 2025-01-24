@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_task_line,project.task.line,model_project_task_line,base.group_user,1,1,1,1
+access_fleet_vehicle_line,fleet.vehicle.line,model_fleet_vehicle_line,base.group_user,1,1,1,1
+access_merge_device,merge.device,model_merge_device,base.group_user,1,1,1,1
+access_training_popup_wizard,training.popup.wizard,model_training_popup_wizard,base.group_user,1,1,1,1
+access_product_brand,product.brand,model_product_brand,base.group_user,1,1,1,1
+access_merge_device_os,merge.device.os,model_merge_device_os,base.group_user,1,1,1,1
+
+

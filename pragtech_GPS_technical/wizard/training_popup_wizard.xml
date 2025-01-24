@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <!-- Wizard Form View -->
+        <record id="view_training_popup_wizard_form" model="ir.ui.view">
+            <field name="name">training.popup.wizard.form</field>
+            <field name="model">training.popup.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Training Details">
+                    <group>
+                        <field name="is_training_required"/>
+                        <field name="reason" invisible="is_training_required == True" />
+                    </group>
+                    <footer>
+                        <button string="Confirm" type="object" name="action_confirm" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+
+        <!-- Action to open the wizard -->
+        <record id="action_training_confirmation_wizard" model="ir.actions.act_window">
+            <field name="name">Training Confirmation Popup</field>
+            <field name="res_model">training.popup.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_training_popup_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
