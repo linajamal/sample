@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fleet_manage_status,fleet.manage.status,model_fleet_manage_status,base.group_user,1,1,1,1
+access_fleet_manage_status_line,fleet.manage.status.line,model_fleet_manage_status_line,base.group_user,1,1,1,1
+access_old_device_details,old.device.details,model_old_device_details,base.group_user,1,1,1,1
+access_old_sim_details,old.sim.details,model_old_sim_details,base.group_user,1,1,1,1
+access_transfer_confirmation_wizard,transfer.confirmation.wizard,model_transfer_confirmation_wizard,base.group_user,1,1,1,1
+access_customer_enable_wizard,customer.enable.wizard,model_customer_enable_wizard,base.group_user,1,1,1,1
+access_customer_disable_wizard,customer.disable.wizard,model_customer_disable_wizard,base.group_user,1,1,1,1
+access_vehicle_status_confirmation_wizard,vehicle.status.confirmation.wizard,model_vehicle_status_confirmation_wizard,base.group_user,1,1,1,1
+access_vehicle_subscription_confirmation_wizard,vehicle.subscription.confirmation.wizard,model_vehicle_subscription_confirmation_wizard,base.group_user,1,1,1,1
+access_maintenance_order_confirmation_wizard,maintenance.order.confirmation.wizard,model_maintenance_order_confirmation_wizard,base.group_user,1,1,1,1
+access_sale_subscription,sale.subscription,model_sale_subscription,base.group_user,1,1,1,1
+access_sale_subscription_line,sale.subscription.line,model_sale_subscription_line,base.group_user,1,1,1,1
+
+

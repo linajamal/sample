@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="custom_header_footer_new">
+            <div class="header" style="font-family: Calibri, Arial, sans-serif;">
+                <img src="/pragtech_GPS_sales/static/src/img/header.png" style="width: 100%;" alt="Header Image"/>
+            </div>
+             <div class="article o_report_layout_standard">
+                <t t-out="0"/>
+            </div>
+            <!-- <div class="article o_report_layout_standard"
+                t-att-style="'background: url(/pragtech_GPS_sales/static/src/img/watermark.png) no-repeat center center;background-size: contain;'">
+                <t t-out="0"/>
+            </div> -->
+            <div class="footer" style="display: flex; font-family: Calibri, Arial, sans-serif;">
+                <center>
+                    <strong>
+                        طــــــريق الامـــــــــــام سعود – حي المرسلات – ص.ب. 34634 – الرياض 11381 – الهاتف: 920020023
+                    </strong><br/>
+                    <strong>
+                        Imam Saud Street – AlMorsalat – P.O Box 34634 – Riyadh 11381 – Tel: 920020023
+                    </strong>
+                </center>
+            </div>
+    </template>
+
+
+
+    <template id="custom_sale_quotation_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="pragtech_GPS_sales.custom_header_footer_new">
+                    <div class="page" style="font-family: Calibri, Arial, sans-serif;">
+                        <div class="oe_structure"/>
+                         <table style="width: 100%; margin-top: 20px; font-size: 26px; font-weight: bold; border-collapse: separate; border-spacing: 0 20px;">
+                        <tr>
+                            <td style="width: 15%; text-align: left;">
+                                <strong>
+                                    <span t-field="o.date_order" t-options='{"widget": "date"}'/>
+                                </strong>
+                            </td>
+                            <td style="width: 15%; text-align: left;">
+                                <strong> : التاريخ</strong>
+                            </td>
+                            <td style="width: 70%;"></td>
+                        </tr>
+                    </table>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                    <table style="width: 100%; margin-top: 40px; font-size: 30px; font-weight: bold; text-align: center; border-collapse: separate; border-spacing: 0 20px;">
+                        <tr>
+                            <td><strong>نظام إدارة الأسطول وتتبع المركبات</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>العرض الفني والمالي</strong></td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;"></td>
+                        </tr>
+                        <tr>
+                            <td style="height: 30px;"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>
+                           <t t-esc="o.partner_id.name + ' / السادة'"/>
+                            </strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>
+                            <t t-esc="o.user_id.name"/>
+                            </strong></td>
+                        </tr>
+                    </table>
+                    <br></br><br></br><br></br><br></br><br></br>
+                    <center>
+                        <p style="text-align: left; font-size: 20px; font-weight: bold; line-height: 1.8;">
+                            مدير الحساب / مروه الروبي<br></br>
+                            للتواصل / 0505662239
+                        </p>
+                    </center>
+
+                    <br></br><br></br><br></br><br></br>
+                    <table style="width: 100%; text-align: right;border-collapse: separate; border-spacing: 7px;">
+                    <tr>
+                        <td style="width: 49%; vertical-align: top; text-align: left;">
+                            <div><strong style="text-decoration: underline;">About Us</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px; text-align: left;">
+                                Connecting Roads is a national company that has set its sights on a firm goal, which is to provide the best solutions and services in the field of tracking and managing vehicles and fleets of all kinds, to organize various businesses. Connecting Roads serves all categories of (companies, institutions) that wish to regulate the work of their vehicles and their fleets, by ensuring that the interests of their customers are optimized by providing the best and latest products and services in the field of vehicle tracking and management.
+                            </div>
+                        </td>
+                      <td style="width: 5cm;"></td>
+                                            
+                        <td style="width: 49%; vertical-align: top;">
+                            <div><strong style="text-decoration: underline;">من نحن</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px;">
+                                ربـط الطرق شـركة وطنيـة وضعـت نصـب أعينهـا هدفا ثابتـا وهو تقديـم أفضـل الحلـول والخدمات في مجال تتبـع. وإدارة المركبات والاسطول بجميع أنواعهـا، لتنظيـم مختلـف الأعمال. تخـدم ربـط الطـرق جميـع الفئات من (شـركات، مؤسسـات) التي ترغب فـي تنظيم عمـل مركباتها واسطولها، وذلك بالحرص علـى مصالح عملائها علـى الوجـه الأمثـل عـن طريق تقديـم أفضل وأحـدث المنتجـات والخدمات في مجـال تتبـع وإدارة المركبات.
+                            </div>
+                        </td>
+                       
+                    </tr>
+                </table>
+
+                <table style="width: 100%; text-align: right;border-collapse: separate; border-spacing: 7px;">
+                    <tr>
+                        <td style="width: 49%; vertical-align: top; text-align: left;">
+                            <div><strong style="text-decoration: underline;">Our Values</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px; text-align: left;">
+                                Customer care: We believe that customer care and concern for the quality of service provided are the criteria for our success. Impartiality: Every client we have is equally important. We care about every client. We are creative people: We create the best solutions that suit companies and institutions that meet their needs. Success Partners: We believe that our partners are a big part of our success, and we cannot grow without them. Take care of our people: By creating an appropriate work environment, encouraging, and motivating them.
+                            </div>
+                        </td>
+                        <td style="width: 5cm;"></td>
+
+                        <td style="width: 49%; vertical-align: top;">
+                            <div><strong style="text-decoration: underline;">قيمنا</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px;">
+                                الاهتمام بالعميل: نحن نؤمن بان الاهتمام بالعميل والحرص على جودة الخدمة المقدمة هي معيار نجاحنا. عدم التحيز: كل عميل لدينا له نفس الأهمية. نحن نهتم بكل عميل بطبعتنا. مبتكرون: نحن نبتكر أفضل الحلول التي تناسب الشركات والمؤسسات التي تلبي احتياجاتهم. شركاء النجاح: نحن نؤمن بان شركائنا هم جزء كبير من نجاحنا ولا نستطيع ان ننمو بدونهم. الاهتمام بموظفينا: من خلال خلق بيئة عمل مناسبة وتشجيعهم وتحفيزهم.
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width: 100%; text-align: right;border-collapse: separate; border-spacing: 7px;">
+                    <tr>
+                        
+                        <td style="width: 49%; vertical-align: top; text-align: left;">
+                            <div><strong style="text-decoration: underline;">Explanation of how the tracking system works</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px; text-align: left;">
+                                The tracking device communicates with the GPS satellite to determine the actual location of the vehicle. The device also collects vehicle data. Sending location data and other data from the vehicle via the communication tower to server. GPRS / GSM network operator. Through our platform, the customer displays all the vehicle data on the computer or mobile screen.
+                            </div>
+                        </td>
+                        <td style="width: 5cm;"></td>
+
+                        <td style="width: 49%; vertical-align: top;">
+                            <div><strong style="text-decoration: underline;">شرح توضيحي لكيفية عمل نظام التتبع</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px;">
+                                لتحديد GPS يقوم جهاز التتبع بالاتصال بالقمر الصناعي الموقع الفعلي للمركبة. يقوم الجهاز أيضا بتجميع بيانات المركبة. إرسال بيانات الموقع والبيانات الأخرى من المركبة عن طريق برج الاتصالات إلى الخادم GSM/GPRS مشغل الشبكة من خلال منصتنا الخاصة. يقوم العميل بعرض كامل بيانات المركبة على شاشة الكمبيوتر أو الجوال.
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width: 100%; text-align: right;border-collapse: separate; border-spacing: 7px;">
+                    <tr>
+                        <td style="width: 49%; vertical-align: top;text-align: left;">
+                            <div><strong style="text-decoration: underline; text-align: left;">What is the benefit of the tracking system and vehicle management?</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px; text-align: left;">
+                                Businesses that depend on transportation benefit the following: Real-time tracking of cars, Extract records and reports, Eliminate and reduce the risks associated with investing in vehicles, Improve efficiency, Improve productivity, Reducing total transportation and personnel costs.
+                            </div>
+                        </td>
+                        <td style="width: 5cm;"></td>
+
+                          <td style="width: 49%; vertical-align: top;">
+                            <div><strong style="text-decoration: underline;">ما الفائدة لنظام التتبع وإدارة المركبات؟</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px;">
+                                تستفيد الشركات التي تعتمد على النقل في الأعمال التجارية التالي: التتبع الوقتي للسيارات، استخراج السجلات والتقارير، إزالة وتقليل المخاطر المرتبطة باستثمار المركبات، تحسين الكفاءة، تحسين الإنتاجية، تخفيض إجمالي تكاليف النقل والموظفين.
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width: 100%; text-align: right;border-collapse: separate; border-spacing: 10px;">
+                    <tr>
+                            <td style="width: 49%; vertical-align: top; text-align: left;">
+                            <div><strong style="text-decoration: underline;">Devices</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px; text-align: left;">
+                                Basic and advanced tracking devices made by Ruptela, Teltonika, and others. Additional accessories such as temperature sensors, weight sensors, and door sensors, etc.
+                            </div>
+                        </td>
+                        <td style="width: 5cm;"></td>
+                          <td style="width: 49%; vertical-align: top;">
+                            <div><strong style="text-decoration: underline;">الأجهـــــــــــــــــــــــزة</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px;">
+                                أجهزة تحديد المواقع الأساسية والمتقدمة من صنع شركة روبتلا وتلتونكيا وغيرها ملحقات إضافية مثل حساس لدرجة الحرارة، وحساس الوزن والابواب وغيرها.
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width: 100%; text-align: right;border-collapse: separate; border-spacing: 10px;">
+                    <tr>
+                       
+                        <td style="width: 49%; vertical-align: top; text-align: left;">
+                            <div><strong style="text-decoration: underline;">Software</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px; text-align: left;">
+                                Real-time vehicle control and monitoring software developed by a global company. It enables you to manage your fleet of vehicles, saving time and effort, and allowing you to improve performance.
+                            </div>
+                        </td>
+                        <td style="width: 5cm;"></td>
+
+
+                         <td style="width: 49%; vertical-align: top;">
+                            <div><strong style="text-decoration: underline;">البرمجيــــــــــــــــــــــــــــات</strong></div>
+                            <div style="font-size: 14px; margin-top: 5px;">
+                                برمجيات التحكم ومراقبة المركبات في الوقت الحقيقي مطور من شركة عالمية يمكنك من إدارة أسطول المركبات لتوفير الوقت والجهد فـي مركباتـك ومعرفـة مـا يمكـن تحسـينه في الأداء.
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table style="width: 100%; border-collapse: separate; border-spacing: 10px;">
+                    <tr>
+                        <td style="text-align: right; font-size: 15px; text-decoration: underline;">
+                            العرض المالي:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; font-size: 15px;">
+                            كما نتشرف بتقديم عرضنا المالي الخاص بتركيب نظام تتبع المركبات على النحو التالي:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left; font-size: 15px; font-weight: bold;">
+                            And We Honor to present our Financial Offer for GPS Installation as below:
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width: 100%; border: 1px solid black; border-collapse: collapse; text-align: center;">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid black;">Sl/N<br/>م</th>
+                            <th style="border: 1px solid black;">Description<br/>الوصف</th>
+                            <th style="border: 1px solid black;">Qty<br/>الكمية</th>
+                            <th style="border: 1px solid black;">Unit Price<br/>سعر الوحدة قبل الخصم</th>
+                            <th style="border: 1px solid black;">Unit Price<br/>سعر الوحدة بعد الخصم</th>
+                            <th style="border: 1px solid black;">Total<br/>الإجمالي</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="serial_number" t-value="1"/> 
+                        <t t-foreach="o.order_line" t-as="line">
+                            <tr>
+                                <td style="border: 1px solid black;">
+                                    <t t-esc="serial_number"/>
+                                    <t t-set="serial_number" t-value="serial_number + 1"/> 
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <t t-esc="line.product_template_id.name"/>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <t t-esc="'{:.2f}'.format(line.product_uom_qty)"/>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <t t-esc="'{:.2f}'.format(line.price_unit)"/>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <t t-esc="'{:.2f}'.format(line.price_subtotal / line.product_uom_qty)"/>
+                                </td>
+                                <td style="border: 1px solid black;">
+                                    <t t-esc="'{:.2f}'.format(line.price_subtotal)"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <table style="width: 100%; border: 1px solid black; border-collapse: collapse; text-align: center; margin-top: 0px;">
+                    <tr>
+                        <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 40%;">
+                            TOTAL<br/>الإجمالي
+                        </td>
+                        <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 30%;">
+                        </td>
+                        <td style="border: 1px solid black; text-align: right; width: 30%;">
+                            <t t-esc="o.amount_untaxed"/>ر.س
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 40%;">
+                            VAT<br/>القيمة المضافة
+                        </td>
+                        <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 30%;">
+                            15%
+                        </td>
+                        <td style="border: 1px solid black; width: 30%;text-align: right;">
+                            <t t-esc="o.amount_tax"/>ر.س
+                            
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: center; font-weight: bold; border: 1px solid black; width: 50%;">
+                            TOTAL With VAT<br/>الإجمالي مع القيمة المضافة
+                        </td>
+                        <td colspan="2" style="border: 1px solid black; text-align: right;">
+                            <t t-esc="o.amount_total"/>ر.س 
+                        </td>
+                    </tr>
+                </table>
+
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <table style="width: 100%; border-collapse: separate;">
+                    <tr>
+                        <td style="text-align: right; font-weight: bold;">
+                            : الشروط والأحكام
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <ul dir="rtl" style="list-style-position: inside; padding-right: 20px; padding-left: 0;">
+                                <li>مدة هذا العرض 15 يوم من تاريخه</li>
+                                <li>الأسعار أعلاه بالريال السعودي وتختص بالكميات المحددة في العرض</li>
+                                <li>تفعيل الخدمة والبرمجة وتركيب أجهزة حلول التتبع مجانا في المدن الرئيسية (الرياض، جده، الدمام) أما في حال وجود المركبات خارج المدن الرئيسية سيترتب عليها رسوم إضافية للتركيب.</li>
+                                <li>مدة التركيب سيتم جدولتها معكم بعد التعميد من قبل قسم التشغيل.</li>
+                                <li>يعتبر الضمان على الأجهزة والملحقات ساري لمدة سنتين (الضمان على سوء الصنع وليس سوء الاستخدام).</li>
+                                <li>فريق الدعم الفني سيقوم بالتنسيق مع المسؤول عن النظام لديكم لتحديد موعد لشرح النظام والتدريب على الخدمة.</li>
+                                <li>سيتم تزويد العميل باسم المستخدم وكلمة المرور الخاص باشتراككم.</li>
+                                <li>عند الموافقة على هذا العرض يرجى تزويدنا بنسخة من السجل التجاري والرقم الضريبي للشركة.</li>
+                                <li>يتم دفع 100% مقدماً من قيمة الأجهزة وقيمة الاشتراك السنوي.</li>
+                                <li>في السنة التالية ستقتصر القيمة المالية على رسوم اشتراك الخدمة السنوي فقط وسيتم إشعاركم بها قبل تاريخ انتهاء الخدمة.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+                <br></br>
+                <br></br>
+                <br></br>
+                <table style="width: 100%; border-collapse: separate;">
+                    <tr>
+                        <td style="text-align: left; font-weight: bold;">
+                            Terms and Conditions:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">
+                            <ul dir="ltr" style="list-style-position: inside; padding-left: 20px; padding-right: 0;">
+                                <li>This offer is valid for 15 days</li>
+                                <li>The above prices are in Saudi Riyals and are for the quantities specified in the offer</li>
+                                <li>Service activation, programming, and installation of tracking solutions devices free of charge in the main cities (Riyadh, Jeddah, Dammam) as for the presence of vehicles outside major cities, additional installation fees will apply.</li>
+                                <li>The installation period will be scheduled by Operation department.</li>
+                                <li>The warranty on hardware and accessories is valid for two years (the warranty is for poor manufacture, not misuse)</li>
+                                <li>The technical support team will coordinate with your system administrator to set an appointment to explain the system and train the service.</li>
+                                <li>The customer will be provided with the username and password for your subscription.</li>
+                                <li>Upon approval of this offer, please provide us with a copy of the commercial registration and company VAT.</li>
+                                <li>100% of the advance value is paid from the Devices and annual Subscription Fees.</li>
+                                <li>In the following year, the financial value will be limited to the annual service subscription fees, to be notified to you before the date of service termination.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="width: 100%; border-collapse: separate;">
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">
+                            نرجوا أن يلاقى عرضنا هذا لديكم القبول والاستحسان وتفضلوا بقبول فائق التقدير والاحترام
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; font-weight: bold;">
+                            We hope that this offer will be accepted and approved by you. Much Appreciation and respect to You
+                        </td>
+                    </tr>
+                </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+
+    <report
+        id="custom_sale_report"
+        model="sale.order"
+        string="Custom Sale Quotation"
+        report_type="qweb-pdf"
+        name="pragtech_GPS_sales.custom_sale_quotation_report_template"
+        file="pragtech_GPS_sales.custom_sale_quotation_report_template"
+        print_report_name="'Sale Quotation Report - %s' % (object.name)"
+    />
+
+
+</odoo>

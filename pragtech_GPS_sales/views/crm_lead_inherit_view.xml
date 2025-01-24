@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="crm_lead_view_tree_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.tree.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="lead_sequence" readonly="1" force_save="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_oppor_view_tree_inherit" model="ir.ui.view">
+        <field name="name">crm.oppor.tree.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="lead_sequence" readonly="1" force_save="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_oppor_view_kanban_inherit" model="ir.ui.view">
+        <field name="name">crm.oppor.kanban.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="lead_sequence" style="font-weight: bold;" readonly="1" force_save="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_view_form_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.form.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(crm.action_crm_lead2opportunity_partner)d']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='toggle_active']" position="before">
+                <button name="action_convert_opportunity_trigger" data-hotkey="v"
+                    string="Convert to Opportunity" type="object" class="oe_highlight"
+                    invisible="type == 'opportunity' or not active"/>
+            </xpath>
+            <xpath expr="//button[@name='action_set_won_rainbowman']" position="before">
+                <button string="New Quotation" name="action_sale_quotations_new_custom" type="object" class="oe_highlight" data-hotkey="q"
+                    title="Create new quotation"
+                    invisible="type == 'lead' or probability == 0 and not active"/>
+            </xpath>
+            <xpath expr="//button[@name='action_set_automated_probability']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//small[@class='d-inline-block oe_grey h6 mb-0']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="lead_sequence" readonly="1" force_save="1"/>
+            </xpath>
+            <xpath expr="//label[@for='probability']" position="attributes">
+                <attribute name="invisible">type == 'lead'</attribute>
+            </xpath>
+            <xpath expr="//div[@id='probability']" position="attributes">
+                <attribute name="invisible">type == 'lead'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='probability']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='priority']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='probability']" position="before">
+                <field name="probability_selection"/>
+            </xpath>
+            <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="before">
+                <field name="probability_level" readonly="1" force_save="1"/>
+            </xpath>            
+            <xpath expr="//field[@name='partner_id']" position="before">
+                <field name="is_organization"/>
+            </xpath>
+            <xpath expr="//field[@name='contact_name']" position="attributes">
+                <attribute name="string">Person Name</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_name']" position="attributes">
+                <attribute name="string">Organization Name</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_name']" position="after">
+                <field name="lead_type"/>
+            </xpath>
+            <xpath expr="//field[@name='function']" position="after">
+                <field name="lead_status"/>
+                <field name="custom_parent_id" readonly="1" force_save="1" invisible="1"/>
+                <field name="custom_child_id" readonly="1" force_save="1" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[contains(@class, 'o_row o_row_readonly')]" position="after">
+                <field name="mobile" readonly="type == 'opportunity'" force_save="1"/>
+            </xpath>
+            <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="attributes">
+                <attribute name="readonly">type == 'opportunity'</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email_from']" position="attributes">
+                <attribute name="readonly">type == 'opportunity'</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>       
+            <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="readonly">type == 'opportunity'</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='lead_priority']/field[@name='priority']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_name']" position="attributes">
+                <attribute name="required">is_organization != False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='contact_name']" position="attributes">
+                <attribute name="required">is_organization == False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_name']" position="attributes">
+                <attribute name="invisible">is_organization == False</attribute>
+            </xpath>
+            <xpath expr="//div[contains(@class, 'o_address_format')]" position="attributes">
+                <attribute name="invisible">lead_type != 'new_visit'</attribute>
+            </xpath>
+            <xpath expr="//label[@for='street']" position="attributes">
+                <attribute name="invisible">lead_type != 'new_visit'</attribute>
+            </xpath>
+            <xpath expr="//field[@name='team_id']" position="after">
+                <div class="o_form_buttons" invisible="lead_type != 'new_visit'">
+                    <button
+                        name="action_update_address"
+                        type="object"
+                        class="btn btn-link ps-0 pt-0 pb-2"
+                        icon="oi-arrow-right"
+                        string="Update Address"/>
+                    <button
+                        name="action_open_map_view"
+                        type="object"
+                        class="btn btn-link ps-0 pt-0 pb-2"
+                        icon="oi-arrow-right"
+                        string="View on Maps"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_view_form_quotation_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.form.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_sale_quotations_new']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>            
+        </field>
+    </record>
+
+</odoo>

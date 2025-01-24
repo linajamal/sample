@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <!-- Wizard Form View -->
+        <record id="view_transfer_confirmation_wizard" model="ir.ui.view">
+            <field name="name">transfer.confirmation.wizard.form</field>
+            <field name="model">transfer.confirmation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Transfer Confirmation">
+                    <group name="confirmation_message">
+                        <div class="alert alert-info">
+                            Are you sure you want to submit this maintenance order?
+                        </div>
+                    </group>
+                    <footer>
+                        <button string="Cancel" class="btn btn-default" special="cancel" type="object" name="action_cancel"/>
+                        <button string="Confirm" class="btn btn-primary" type="object" name="action_transfer_creation" invisible="'confirm' == False"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open the wizard -->
+        <record id="action_transfer_confirmation_wizard" model="ir.actions.act_window">
+            <field name="name">Transfer Confirmation</field>
+            <field name="res_model">transfer.confirmation.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_transfer_confirmation_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

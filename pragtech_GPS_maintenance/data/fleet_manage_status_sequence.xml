@@ -1,0 +1,11 @@
+<odoo>
+    <data noupdate="1">
+        <record id="fleet_manage_status_sequence" model="ir.sequence">
+            <field name="name">Fleet Manage Status Sequence</field>
+            <field name="code">fleet.manage.status.sequence</field>
+            <field name="prefix">STAT/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+    </data>
+</odoo>

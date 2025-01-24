@@ -1,0 +1,163 @@
+<odoo>
+    <!-- QWeb Template -->
+    <template id="proforma_sale_header_and_footer">
+    <div class="header" style="font-family: Calibri, Arial, sans-serif;">
+    <table style="width: 100%; text-align: right; margin-bottom: 10px; border-collapse: separate;">
+        <tr>
+            <td style="width: 30%; text-align: left;">
+                <strong style="font-size: 24px; font-weight: 900; line-height: 1; margin-top: 20px; display: inline-block;">PROFORMA INVOICE</strong>
+                <!-- <p>
+                    <img t-if="doc.l10n_sa_qr_code_str"
+                        style="display:block;"
+                        t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', quote_plus(doc.l10n_sa_qr_code_str), 120, 120)"/>
+                </p> -->
+            </td>
+            <td style="width: 40%;">
+                <div style="margin-top: 10px;">ربط الطرق للاتصالات وتقنیة المعلومات</div>
+                <div>الرقم الضريبي: 310702580500003</div>
+                <div>المرسلات - الامام سعود</div>
+                <div>الرياض</div>
+            </td>
+            <td style="width: 30%; text-align: right; vertical-align: top; padding-top: -10px;">
+                <img src="/pragtech_GPS_sales/static/logo.jpg" style="max-width: 200px; height: auto;" alt="Header Image"/>
+            </td>
+        </tr>
+    </table>
+    <div style="height: 2px; background-color: #000; margin-top: -2px;"></div>
+</div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+        <div class="footer" style="display: flex; font-family: Calibri, Arial, sans-serif;">
+        <table style="width: 100%; border-collapse: separate;">
+        <tr>
+            <td style="width: 100%; text-align: left;">
+                <div><strong>Company Name:</strong> Connecting Roads for Information Technology</div>
+                <div><strong>Bank Name:</strong> Al Ahli Bank</div>
+                <div><strong>IBAN:</strong> SA39 1000 00256655 9400 0109</div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%; text-align: left;">
+                <div style="padding-right: 30px; white-space: nowrap; margin-top: 55px;"><strong>توقیع الموظف</strong></div>
+            </td>
+            <td style="width: 50%; text-align: right;">
+                <div style="padding-right: 30px; white-space: nowrap; margin-top: 5px;"><strong>توقیع مدير الحساب</strong></div>
+            </td>
+        </tr>
+    </table>
+        </div>
+    </template>
+
+    <template id="proforma_sale_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+            <t t-call="pragtech_GPS_sales.proforma_sale_header_and_footer">
+                <div class="page" style="font-family: Calibri, Arial, sans-serif;">
+                    <table style="width: 100%; border-collapse: separate; table-layout: auto;">
+                    <tr>
+                        <td style="width: 70%; vertical-align: top; text-align: left;">
+                            <p style="margin: 0;">
+                                <t t-esc="doc.name"/>
+                                <span style="margin-right: 30px;"></span>
+                                <strong>رقم عرض الاسعار</strong>
+                            </p>
+                            <p style="margin: 0;">
+                                <t t-esc="doc.date_order"/>
+                                <span style="margin-right: 30px;"></span>
+                                <strong>تاريخ عرض الاسعار</strong>
+                            </p>
+                        </td>
+                        <td style="width: 30%; vertical-align: top; text-align: right;">
+                            <p style="margin: 0;">
+                                <t t-esc="doc.partner_id.name"/>
+                                <span style="margin-right: 30px;"></span>
+                                <strong>فاتورة إلى</strong>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table table-bordered" style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 1px solid black;">
+                <thead>
+                    <tr>
+                        <th style="text-align: right; border: 1px solid black;">الإجمالي</th>
+                        <th style="text-align: right; border: 1px solid black;">الكمیة</th>
+                        <th style="text-align: right; border: 1px solid black;">سعر الوحدة</th>
+                        <th style="text-align: right; border: 1px solid black;">الوصف</th>
+                        <th style="text-align: right; border: 1px solid black;">البند</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: right;">
+                    <t t-foreach="doc.order_line" t-as="line">
+                        <tr>
+                            <td style="border: 1px solid black;"><t t-esc="'{:.2f}'.format(line.price_total)"/></td>
+                            <td style="border: 1px solid black;"><t t-esc="'{:.2f}'.format(line.product_uom_qty)"/></td>
+                            <td style="border: 1px solid black;"><t t-esc="'{:.2f}'.format(line.price_unit)"/></td>
+                            <td style="border: 1px solid black;"><t t-esc="line.name"/></td>
+                            <td style="border: 1px solid black;"><t t-esc="line.product_id.display_name"/></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+            <table style="width: 30%; margin-top: 20px; border-collapse: separate; table-layout: auto; direction: rtl;">
+                <tr>
+                    <td style="text-align: right; font-weight: bold; padding: 5px;">الإجمالي</td>
+                    <td style="text-align: left; padding: 5px; white-space: nowrap;">
+                        <t t-esc="'{:.2f}'.format(doc.amount_untaxed)"/> ر.س
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right; padding: 5px; border-top: 1px solid #000;">
+                        <strong style="display: block;">القیمة المضافة</strong>
+                        <span style="font-size: 12px; font-weight: bold;">(15%)</span>
+                    </td>
+                    <td style="text-align: left; padding: 5px; white-space: nowrap; border-top: 1px solid #000;">
+                        <t t-esc="'{:.2f}'.format(doc.amount_tax)"/> ر.س
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: right; padding: 5px; border-top: 1px solid #000;"><strong>الإجمالي النهائي</strong></td>
+                    <td style="text-align: left; padding: 5px; white-space: nowrap; border-top: 1px solid #000;">
+                        <strong>
+                            <t t-esc="'{:.2f}'.format(doc.amount_total)"/> ر.س
+                        </strong>
+                    </td>
+                </tr>
+            </table>
+            <div style="height: 2px; width: 30%; background-color: #000; margin-top: -2px;"></div>
+                </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_proforma_sale" model="ir.actions.report">
+            <field name="name">PROFORMA Invoice</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">pragtech_GPS_sales.proforma_sale_template</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+            <!-- <field name="domain" eval="[('move_type', '!=', 'entry')]"/> -->
+    </record>
+
+    <record id="paperformat_proforma_sale_report" model="report.paperformat">
+            <field name="name">European A4</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">40</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">2</field>
+            <field name="header_spacing">45</field>
+            <field name="dpi">90</field>
+    </record>
+
+    <record id="pragtech_GPS_sales.action_proforma_sale" model="ir.actions.report">
+        <field name="paperformat_id" ref="pragtech_GPS_sales.paperformat_proforma_sale_report"/>
+    </record>
+</odoo>

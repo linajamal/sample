@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <!-- Wizard Form View -->
+        <record id="view_vehicle_status_confirmation_wizard" model="ir.ui.view">
+            <field name="name">vehicle.status.confirmation.wizard.form</field>
+            <field name="model">vehicle.status.confirmation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Vehicle Status Confirmation">
+                    <group name="confirmation_message">
+                        <div class="alert alert-info">
+                            Are you sure you want to update the vehicle status as per your request?
+                        </div>
+                    </group>
+                    <footer>
+                        <button string="Cancel" class="btn btn-default" special="cancel" type="object" name="action_cancel"/>
+                        <button string="Confirm" class="btn btn-primary" type="object" name="action_update_vehicle_status" invisible="'confirm' == False"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open the wizard -->
+        <record id="action_vehicle_status_confirmation_wizard" model="ir.actions.act_window">
+            <field name="name">Vehicle Status Confirmation</field>
+            <field name="res_model">vehicle.status.confirmation.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_vehicle_status_confirmation_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,123 @@
+<odoo>
+    <data>
+        <record id="action_sale_subscription" model="ir.actions.act_window">
+            <field name="name">Vehicle Subscription</field>
+            <field name="res_model">sale.subscription</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_sale_subscription" name="Vehicle Subscriptions"
+        sequence="38" parent="sale.sale_menu_root" groups="pragtech_GPS_sales.group_sales_team"
+        action="action_sale_subscription"/>
+
+        <record id="view_sale_subscription_list" model="ir.ui.view">
+            <field name="name">sale.subscription.list</field>
+            <field name="model">sale.subscription</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="subscription_id"/>
+                    <field name="date"/>
+                    <field name="customer_id"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_sale_subscription_form" model="ir.ui.view">
+            <field name="name">sale.subscription.form</field>
+            <field name="model">sale.subscription</field>
+            <field name="arch" type="xml">
+                <form string="Manage Status">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft, submitted"/>
+                        <button name="action_submit" data-hotkey="v" invisible="state == 'submitted'"
+                        string="Submit" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_subscription_orders" type="object"
+                                    class="oe_stat_button" icon="fa-shopping-cart" invisible="orders_count == 0">
+                                <field name="orders_count" widget="statinfo" string="Orders"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="subscription_id" readonly="1" force_save="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                        <group>
+                            <field name="date" required="1" readonly="state == 'submitted'" force_save="1"/>
+                            <field name="vehicle_expiration_date" readonly="1" force_save="1"/>
+                            <field name="is_single_so" readonly="1" force_save="1" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="customer_id" required="1" readonly="state == 'submitted'" force_save="1"/>
+                            <field name="max_subscription_plan" readonly="1" force_save="1"/>
+                        </group>
+                    </group>
+                    <div class="o_row">
+                        <div class="o_col">
+                            <button name="action_generate_details" 
+                                    type="object" 
+                                    string="Generate Details" 
+                                    class="btn-primary" invisible="state != 'draft'"/>
+                        </div>
+                        <div class="o_col" style="margin-left: 10px;">
+                            <button name="action_fetch_max_date" 
+                                    type="object" 
+                                    string="Max Date and Subscription" 
+                                    class="btn-primary" invisible="state != 'draft'"/>
+                            <button name="action_refresh" type="object" icon="fa-refresh"
+                                    class="btn-secondary" invisible="state != 'draft'"/>
+                        </div>
+                    </div>
+                    <notebook>
+                        <page string="Subscription Details">
+                            <style>
+                                <![CDATA[
+                                th[data-name="is_create_so"],
+                                th[data-name="s_no"],
+                                td[data-name="is_create_so"],
+                                td[data-name="s_no"] {
+                                    min-width: 50px !important;
+                                    width: 50px !important;
+                                }
+                                
+                                th[data-name="vehicle_id"],
+                                th[data-name="vehicle_plate_word"],
+                                th[data-name="vehicle_serial_number"],
+                                th[data-name="subscription_expiration_date"],
+                                th[data-name="new_subscription_plan"],
+                                td[data-name="vehicle_id"],
+                                td[data-name="vehicle_plate_word"],
+                                td[data-name="vehicle_serial_number"],
+                                td[data-name="subscription_expiration_date"]
+                                td[data-name="new_subscription_plan"] {
+                                    min-width: 120px !important;
+                                    width: 120px !important;
+                                }
+                                ]]>
+                            </style>
+                            <field name="line_ids">
+                                <list create="0" editable="bottom">
+                                    <field name="is_create_so" readonly="state == 'submitted'" force_save="1" widget="boolean_toggle"/>
+                                    <field name="s_no" force_save="1"/>
+                                    <field name="vehicle_id" force_save="1"/>
+                                    <field name="vehicle_plate_word" force_save="1"/>
+                                    <field name="vehicle_serial_number" force_save="1"/>
+                                    <field name="subscription_expiration_date" force_save="1"/>
+                                    <field name="new_subscription_plan" readonly="state == 'submitted'" force_save="1"/>
+                                    <!-- <field name="new_subscription_date" readonly="state == 'submitted'" force_save="1"/> -->
+                                    <field name="state" column_invisible="1" force_save="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>    
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="quotation_view_tree_inherit" model="ir.ui.view">
+        <field name="name">quotation.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="sales_type" readonly="1" force_save="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_view_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_list_upload"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="sales_type" readonly="1" force_save="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_view_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">draft,sent,sale,submit</attribute>
+            </xpath> -->
+            <xpath expr="//sheet/div[@name='button_box']" position="before">
+                <widget name="web_ribbon" title="Submitted" invisible="not is_submitted"/>
+            </xpath>
+
+             <!-- <xpath expr="/form/sheet/notebook/page[1]/field[@name='order_line']/list/field[@name='product_uom_qty']"
+                   position="after">
+                <field name="serial_numbers"/>
+            </xpath> -->
+            
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">Contact</attribute>
+                <!-- <attribute name="readonly">1</attribute> -->
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="commercial_id" required="True" readonly="state in ['sale', 'cancel']" force_save="1"/>
+                <field name="customer_group_id" required="True" readonly="state in ['sale', 'cancel']" force_save="1"/>
+                <!-- <field name="custom_compute" invisible="1"/> -->
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="invisible">sales_type == 'maintenance' or GNRLSUB == True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="subscription_expiration_date" invisible="sales_type != 'subscription'" readonly="1" force_save="1"/>
+                <field name="source" readonly="1" force_save="1"/>
+                <field name="sales_type" required="True" readonly="1" force_save="1"/>
+                <field name="maintenance_id" invisible="sales_type != 'maintenance'" readonly="1" force_save="1"/>
+                <field name="vehicle_ids" widget="many2many_tags" invisible="1" readonly="1" force_save="1"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath> 
+            <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="before">
+                <button name="action_confirm_trigger" data-hotkey="q"
+                    string="Confirm" type="object" context="{'validate_analytic': True}"
+                    invisible="state not in ['draft', 'sent']"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="after">
+                <button name="action_create_customer" 
+                        string="Create Customer" 
+                        class="btn-secondary" 
+                        type="object" 
+                        invisible="1"
+                        />
+            </xpath>
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@id='create_invoice_percentage']" position="attributes">
+                <attribute name="context">{'default_advance_payment_method': 'delivered'}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_quotation_send']" position="after">
+                <button name="submit_so" data-hotkey="q"
+                    string="Submit" type="object" class="oe_highlight"
+                    invisible="state != 'sale' or is_submitted"/>
+                <button name="create_invoices_trigger" data-hotkey="q"
+                    string="Create Invoice" type="object" class="oe_highlight"
+                    invisible="state != 'sale' or not is_submitted"/>
+            </xpath>
+            <page name="other_information" position="after">
+                <page string="Attachment" invisible="state not in ('sale', 'submit', 'cancel')">
+
+                    <group string="VAT Registration">
+                        <field name="vat_registration_type" />
+                        <div invisible="vat_registration_type != 'url'" >
+                            <field name="vat_registration_url" placeholder="Enter VAT Registration URL" widget="CopyClipboardURL"/>
+                        </div>
+                        <div invisible="vat_registration_type != 'attachment'">
+                            <field name="vat_registration_attachment" widget="many2many_binary"/>
+                        </div>
+                    </group>
+
+                    <group string="Commercial ID">
+                        <field name="commercial_id_type" />
+                        <div invisible="commercial_id_type != 'url'" >
+                            <field name="commercial_id_url" placeholder="Enter Commercial ID URL" widget="CopyClipboardURL"/>
+                        </div>
+                        <div invisible="commercial_id_type != 'attachment'">
+                            <field name="commercial_id_attachment" widget="many2many_binary"/>
+                        </div>
+                    </group>
+
+                    <group string="Transfer Receipt">
+                        <field name="transfer_receipt_type" />
+                        <div invisible="transfer_receipt_type != 'url'" >
+                            <field name="transfer_receipt_url" placeholder="Enter Transfer Receipt URL" widget="CopyClipboardURL"/>
+                        </div>
+                        <div invisible="transfer_receipt_type != 'attachment'">
+                            <field name="transfer_receipt_attachment" widget="many2many_binary"/>
+                        </div>
+                    </group>
+
+                    <group string="Other">
+                        <field name="other_type" />
+                        <div invisible="other_type != 'url'" >
+                            <field name="other_url" placeholder="Enter Other Receipt URL" widget="CopyClipboardURL"/>
+                        </div>
+                        <div invisible="other_type != 'attachment'">
+                            <field name="other_attachment" widget="many2many_binary"/>
+                        </div>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+<!-- 
+      <record id="view_picking_form_inherit_fetch_sim" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.fetch.sim</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <header>
+                <button name="fetch_sim" string="Fetch SIM" type="object" class="oe_highlight"/>
+            </header>
+        </field>
+    </record>
+
+    -->
+
+</odoo>

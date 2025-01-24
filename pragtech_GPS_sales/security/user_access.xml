@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+
+		<record id="category_gps_tracking" model="ir.module.category">
+			<field name="name">GPS Tracking</field>
+			<field name="description">Groups for GPS Tracking Operations</field>
+			<field name="sequence">160</field>
+		</record>
+
+		<record id="group_admin" model="res.groups">
+	        <field name="name">GPS Tracking / Admin</field>
+			<field name="category_id" ref="pragtech_GPS_sales.category_gps_tracking"/>
+		</record>
+
+	    <record id="group_sales_team" model="res.groups">
+	        <field name="name">GPS Tracking / Sales Team</field>
+			<field name="category_id" ref="pragtech_GPS_sales.category_gps_tracking"/>
+		</record>
+	    <record id="group_finance_team" model="res.groups">
+	        <field name="name">GPS Tracking / Finance Team</field>
+			<field name="category_id" ref="pragtech_GPS_sales.category_gps_tracking"/>
+		</record>
+	    <record id="group_operational_team" model="res.groups">
+	        <field name="name">GPS Tracking / Operational Team</field>
+			<field name="category_id" ref="pragtech_GPS_sales.category_gps_tracking"/>
+		</record>
+		<record id="group_technical_team" model="res.groups">
+	        <field name="name">GPS Tracking / Technical Team</field>
+			<field name="category_id" ref="pragtech_GPS_sales.category_gps_tracking"/>
+		</record>
+	</data>
+</odoo>

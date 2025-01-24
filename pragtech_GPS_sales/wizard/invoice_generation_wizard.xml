@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <!-- Wizard Form View -->
+        <record id="view_invoice_generation_wizard" model="ir.ui.view">
+            <field name="name">invoice.generation.wizard.form</field>
+            <field name="model">invoice.generation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Generation">
+                    <group name="confirmation_message">
+                        <div class="alert alert-info">
+                            Are you sure you want to generate Invoice for this Sale Order?
+                        </div>
+                    </group>
+                    <footer>
+                        <button string="Cancel" class="btn btn-default" special="cancel" type="object" name="action_cancel"/>
+                        <button string="Generate Invoice" class="btn btn-primary" type="object" name="action_invoice_generation" invisible="'confirm' == False"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open the wizard -->
+        <record id="action_invoice_generation_wizard" model="ir.actions.act_window">
+            <field name="name">Invoice Generation</field>
+            <field name="res_model">invoice.generation.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_invoice_generation_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

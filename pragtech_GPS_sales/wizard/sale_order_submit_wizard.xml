@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <!-- Wizard Form View -->
+        <record id="view_sale_order_submit_wizard" model="ir.ui.view">
+            <field name="name">sale.order.submit.wizard.form</field>
+            <field name="model">sale.order.submit.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Sale Order Submit">
+                    <group name="confirmation_message">
+                        <div class="alert alert-info">
+                            Are you sure you want to submit this order?
+                        </div>
+                    </group>
+                    <footer>
+                        <button string="Cancel" class="btn btn-default" special="cancel" type="object" name="action_cancel"/>
+                        <button string="Submit Order" class="btn btn-primary" type="object" name="action_submit_sale_order" invisible="'confirm' == False"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open the wizard -->
+        <record id="action_sale_order_submit_wizard" model="ir.actions.act_window">
+            <field name="name">Sale Order Submit</field>
+            <field name="res_model">sale.order.submit.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_sale_order_submit_wizard"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

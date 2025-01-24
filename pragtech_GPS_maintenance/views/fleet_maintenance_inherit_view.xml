@@ -1,0 +1,221 @@
+<odoo>
+    <data>
+        <record id="fleet_maintenance_view_tree_inherit" model="ir.ui.view">
+            <field name="name">fleet.vehicle.log.services.tree.inherit</field>
+            <field name="model">fleet.vehicle.log.services</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="before">
+                    <field name="maintenance_id" readonly="1" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="after">
+                    <field name="assigned_to" readonly="1" force_save="1"/>
+                    <field name="custom_state" readonly="1" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='description']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='service_type_id']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='purchaser_id']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vendor_id']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='notes']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='state']" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="fleet_maintenance_view_form_inherit" model="ir.ui.view">
+            <field name="name">fleet.vehicle.log.services.form.inherit</field>
+            <field name="model">fleet.vehicle.log.services</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <!--xpath expr="//header" position="inside">
+                    <button name="action_submit" type="object" string="Submit" 
+                    invisible="custom_state == 'submitted' or (is_create_order == True and order_count == 0)" class="btn-primary"/>
+                    <button name="action_create_so" type="object" string="Create Sales Order" 
+                    invisible="is_create_order != True or order_count != 0" class="btn-primary"/>
+                    <field name="custom_state" widget="statusbar" statusbar_visible="draft,submitted"/>
+                </xpath-->
+                <xpath expr="//field[@name='description']" position="before">
+                    <div class="oe_title">
+                        <h1>
+                            <field name="maintenance_id" readonly="1" force_save="1"/>
+                        </h1>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='description']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='service_type_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vendor_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='purchaser_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//div[@class='o_row' and ./field[@name='odometer']]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="after">
+                    <field name="request_status" readonly="custom_state == 'submitted'" required="1" force_save="1"/>
+                    <field name="assigned_to" readonly="custom_state == 'submitted'" required="request_status != 'non_technical'" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='vehicle_id']" position="before">
+                    <br></br><br></br><br></br><br></br>
+                </xpath>
+                <xpath expr="//field[@name='vehicle_id']" position="after">
+                    <field name="vehicle_plate_word" readonly="custom_state == 'submitted'" force_save="1"/>
+                    <field name="vehicle_serial_number" readonly="custom_state == 'submitted'" force_save="1"/>
+                    <field name="is_create_order" invisible="1"/>
+                </xpath>
+                <xpath expr="//group[@col='2']" position="after">
+                    <group col="2">
+                        <group string="Customer Details">
+                            <field name="customer_id" readonly="1" force_save="1"/>
+                            <label for="street" string="Address"/>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street..." class="o_address_street" readonly="1" force_save="1"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street" readonly="1" force_save="1"/>
+                                <field name="city" placeholder="City" class="o_address_city" readonly="1" force_save="1"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}' readonly="1" force_save="1"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip" readonly="1" force_save="1"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}' readonly="1" force_save="1"/>
+                            </div>
+                        </group>
+                        <group string="Invoice Details">
+                            <field name="vehicle_invoice_number" readonly="1" force_save="1"/>
+                            <field name="vehicle" readonly="1" force_save="1"/>
+                            <field name="invoice_item" required="is_invoice_item == True" invisible="is_invoice_item != True" readonly="custom_state == 'submitted'" force_save="1"/>
+                            <field name="invoice_amount" required="is_invoice_item == True" readonly="1" force_save="1" invisible="is_invoice_item != True"/>
+                        </group>
+                    </group>
+                    <group col="2" invisible="is_device_change != True">
+                        <group string="Device Information">
+                            <field name="device_warranty_expiration_date" readonly="device_warranty_status != 'bad_usage' or custom_state == 'submitted'" force_save="1"/>
+                        </group>
+                        <group string="">
+                            <field name="device_warranty_status" required="request_status == 'technical_device_change'" readonly="custom_state == 'submitted'" force_save="1"/>
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="attributes">
+                    <attribute name="readonly">custom_state == 'submitted'</attribute>
+                    <attribute name="force_save">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vehicle_id']" position="attributes">
+                    <attribute name="readonly">custom_state == 'submitted'</attribute>
+                    <attribute name="force_save">1</attribute>
+                </xpath>
+                <xpath expr="//separator" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='notes']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <!--page string="Old Device Details" invisible="is_device_change != True">
+                        <field name="old_device_details_ids">
+                            <list create="0" edit="0" delete="0">
+                                <field name="s_no" force_save="1"/>
+                                <field name="device_code" force_save="1"/>
+                                <field name="device_name" force_save="1"/>
+                                <field name="device_imei" force_save="1"/>
+                                <field name="qty" force_save="1"/>
+                                <field name="warehouse" force_save="1"/>
+                            </list>
+                        </field>
+                    </page-->
+                    <page string="New Device Details" invisible="is_device_change != True">
+                        <group col="2">
+                            <group>
+                                <field name="barcode" required="request_status == 'technical_device_change'" readonly="custom_state == 'submitted'" force_save="1"/>
+
+                                <field name="source_wh" required="request_status == 'technical_device_change'" readonly="custom_state == 'submitted'" force_save="1"/>
+                                <field name="new_device_code" required="request_status == 'technical_device_change'" readonly="custom_state == 'submitted'" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="destination_wh" required="request_status == 'technical_device_change'" readonly="custom_state == 'submitted'" force_save="1"/>
+                                <field name="new_device_imei" required="request_status == 'technical_device_change'" readonly="custom_state == 'submitted'" force_save="1"/>
+                            </group>
+                        </group>
+                    </page>
+                    <!--page string="Old SIM Details" invisible="is_sim_change != True">
+                        <field name="old_sim_details_ids">
+                            <list create="0" edit="0" delete="0">
+                                <field name="s_no" force_save="1"/>
+                                <field name="sim_code" force_save="1"/>
+                                <field name="sim_serial_no" force_save="1"/>
+                                <field name="qty" force_save="1"/>
+                                <field name="warehouse" force_save="1"/>
+                            </list>
+                        </field>
+                    </page-->
+                    <page string="New SIM Details" invisible="is_sim_change != True">
+                        <group col="2">
+                            <group>
+                                <field name="source_wh" required="request_status == 'technical_sim_change'" readonly="custom_state == 'submitted'" force_save="1"/>
+                                <field name="new_sim_code" required="request_status == 'technical_sim_change'" readonly="custom_state == 'submitted'" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="destination_wh" required="request_status == 'technical_sim_change'" readonly="custom_state == 'submitted'" force_save="1"/>
+                                <field name="new_sim_serial_no" required="request_status == 'technical_sim_change'" readonly="custom_state == 'submitted'" force_save="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+            </field>
+        </record>
+
+        <record id="fleet.fleet_vehicle_log_services_menu" model="ir.ui.menu">
+            <field name="name">Maintenance</field>
+        </record>
+        <record id="fleet.fleet_vehicle_log_services_action" model="ir.actions.act_window">
+            <field name="name">Maintenance</field>
+            <field name="context"></field>
+        </record>
+
+        <record id="fleet_maintenance_view_form_inherit2" model="ir.ui.view">
+            <field name="name">fleet.vehicle.log.services.form.inherit2</field>
+            <field name="model">fleet.vehicle.log.services</field>
+            <field name="inherit_id" ref="account_fleet.fleet_vehicle_log_services_view_form"/>
+            <field name="arch" type="xml">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_maintenance_order" type="object"
+                            class="oe_stat_button" icon="fa-shopping-cart" invisible="order_count == 0">
+                        <field name="order_count" widget="statinfo" string="Order"/>
+                    </button>
+                    <!-- <button name="action_maintenance_transfer" type="object"
+                            class="oe_stat_button" icon="fa-truck" invisible="transfer_count == 0">
+                        <field name="transfer_count" widget="statinfo" string="Transfer"/>
+                    </button> -->
+                </div>
+            </field>
+        </record>
+
+        <record id="fleet.fleet_vehicle_log_services_action" model="ir.actions.act_window">
+            <field name="domain">[('access_ids', 'in', uid)]</field>
+        </record>
+    </data>
+</odoo>

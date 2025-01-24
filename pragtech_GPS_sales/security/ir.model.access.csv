@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_opportunity_conversion_wizard,opportunity.conversion.wizard,model_opportunity_conversion_wizard,base.group_user,1,1,1,1
+access_quotation_creation_wizard,quotation.creation.wizard,model_quotation_creation_wizard,base.group_user,1,1,1,1
+access_quotation_confirmation_wizard,quotation.confirmation.wizard,model_quotation_confirmation_wizard,base.group_user,1,1,1,1
+access_sale_order_submit_wizard,sale.order.submit.wizard,model_sale_order_submit_wizard,base.group_user,1,1,1,1
+access_invoice_generation_wizard,invoice.generation.wizard,model_invoice_generation_wizard,base.group_user,1,1,1,1
+access_customer_group,customer.group,model_customer_group,base.group_user,1,1,1,1
+
