@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+      <template id="portal_menu_fleet" name="Portal layout : Fleet menu entries" inherit_id="portal.portal_breadcrumbs" priority="25">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+        <li t-if="page_name == 'fleet' " t-attf-class="breadcrumb-item #{'active '}">
+            <a t-attf-href="/get/fleets">Requests for Quotation</a>
+        </li>
+        
+        </xpath>
+        </template>
+        
+
+        <template id="portal_my_home" name="Portal fleet"
+              customize_show="True"
+              inherit_id="portal.portal_my_home" priority="100">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <div class="o_portal_category row g-2 mt-3"
+                 id="portal_common_category">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="icon"
+                       t-value="'/account/static/src/img/Bill.svg'"/>
+                    <t t-set="title">Fleets</t>
+                    <!--t t-set="text">View, check availability of Products in
+                        Portal
+                    </t-->
+                    <t t-set="url" t-value="'/get/fleets'"/>
+                    <t t-set="placeholder_count" t-value="'f_count'"/>
+                </t>
+            </div>
+            <div class="o_portal_category row g-2 mt-3"
+                 id="portal_common_category2">
+                <t t-call="portal.portal_docs_entry">
+                    <t t-set="icon"
+                       t-value="'/account/static/src/img/Bill.svg'"/>
+                    <t t-set="title">Fleet's maintenance</t>
+                    <!--t t-set="text">View, check availability of Products in
+                        Portal
+                    </t-->
+                    <t t-set="url" t-value="'/get/maintenances'"/>
+                    <t t-set="placeholder_count" t-value="'m_count'"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+        <template id="portal_fleets" name="Fleets">
+      <t t-call="portal.portal_layout">
+        <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+        <t t-call="portal.portal_searchbar">
+            <t t-set="title">Fleets</t>
+        </t>
+        <t t-if="not fleet_ids">
+            <p class="alert alert-warning">There are currently no invoices and payments for your account.</p>
+        </t>
+        <t t-if="fleet_ids" t-call="portal.portal_table">
+            <thead>
+                <tr class="active">
+                    <th>
+                                Plate No
+                                    
+                            </th>
+                            <th>Customer</th>
+                            <th>Barcode </th>
+                            <th>Serial number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="fleet_ids" t-as="fleet">
+                    <tr>
+                        <td>
+                            <a t-attf-href="/request/#{ slug(fleet) }" t-att-title="fleet.name">
+                            <span t-field="fleet.license_plate"/>
+                            </a>        
+                        </td>
+                        <td>
+                            <span t-field="fleet.customer_id.name"/>        
+                        </td>
+                        <td>
+                            <span t-field="fleet.barcode.barcode"/>        
+                        </td>
+                        <td>
+                            <span t-field="fleet.vehicle_serial_number"/>
+                        </td>
+                        <!--td><span t-field="invoice.invoice_date"/></td>
+                        <td class='d-none d-md-table-cell'
+                            t-att-class="'text-danger' if invoice.invoice_date_due and invoice.invoice_date_due &lt; datetime.date.today() and invoice.payment_state in ['not_paid', 'partial'] else ''">
+                            <span t-field="invoice.invoice_date_due"/>
+                        </td>
+                        <td class="text-end pe-3"><span t-out="-invoice.amount_residual if invoice.move_type == 'out_refund' else invoice.amount_residual" t-options='{"widget": "monetary", "display_currency": invoice.currency_id}'/></td>
+                        <td name="invoice_status">
+                            <t t-if="invoice.state == 'posted'" name="invoice_status_posted">
+                                <span t-if="invoice.currency_id.is_zero(invoice.amount_residual)"
+                                      class="badge rounded-pill text-bg-success">
+                                    <i class="fa fa-fw fa-check" aria-label="Paid" title="Paid" role="img"/>
+                                    <span class="d-none d-md-inline"> Paid</span>
+                                </span>
+                                <span t-elif="invoice.payment_state == 'in_payment' and not invoice.currency_id.is_zero(invoice.amount_residual)"
+                                      class="badge rounded-pill text-bg-info">
+                                    <i class="fa fa-fw fa-check" aria-label="processing_payment" title="Processing Payment" role="img"/>
+                                    <span class="d-none d-md-inline"> Processing Payment</span>
+                                </span>
+                                <span t-elif="invoice.payment_state == 'reversed'"
+                                      class="badge rounded-pill text-bg-success">
+                                    <i class="fa fa-fw fa-check" aria-label="Reversed" title="Reversed" role="img"/>
+                                    <span class="d-none d-md-inline"> Reversed</span>
+                                </span>
+                                <span t-else="" class="badge rounded-pill text-bg-info" name="invoice_status_waiting_for_payment">
+                                    <i class="fa fa-fw fa-clock-o" aria-label="Opened" title="Opened" role="img"/>
+                                    <span class="d-none d-md-inline"> Waiting for Payment</span>
+                                </span>
+                            </t>
+                            <t t-elif="invoice.state == 'cancel'">
+                                <span class="badge rounded-pill text-bg-warning">
+                                    <i class="fa fa-fw fa-remove" aria-label="Cancelled" title="Cancelled" role="img"/>
+                                    <span class="d-none d-md-inline"> Cancelled</span>
+                                </span>
+                            </t>
+                        </td-->
+                    </tr>
+                </t>
+            </tbody>
+        </t>
+      </t>
+    </template>
+
+
+    
+    <template id="portal_maintenances" name="Maintenances">
+      <t t-call="portal.portal_layout">
+        <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+        <t t-call="portal.portal_searchbar">
+            <t t-set="title">Maintenances</t>
+        </t>
+        <t t-if="not maintenance_ids">
+            <p class="alert alert-warning">There are currently no Maintenances for your account.</p>
+        </t>
+        <t t-if="maintenance_ids" t-call="portal.portal_table">
+            <thead>
+                <tr class="active">
+                    <th>
+                                Sequence
+                                    
+                            </th>
+                            <th>Date</th>
+                            <th>Vehicle </th>
+                            <th>State</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="maintenance_ids" t-as="service">
+                    <tr>
+                        <td>
+                            <a t-attf-href="/request/service/#{ slug(service) }" t-att-title="service.maintenance_id">
+                            <span t-field="service.maintenance_id"/>
+                            </a>        
+                        </td>
+                        <td>
+                            <span t-field="service.date"/>        
+                        </td>
+                        <td>
+                            <span t-field="service.vehicle_id.vehicle_id"/>        
+                        </td>
+                        <td>
+                            <span t-field="service.vehicle_serial_number"/>
+                        </td>
+         
+                    </tr>
+                </t>
+            </tbody>
+        </t>
+      </t>
+    </template>
+
+
+        <!--template id="portal_fleets" name="My Fleets">
+        <t t-call="portal.frontend_layout">
+            <t t-if="portal">
+
+                    <div class="wrapper o_portal_wrap">
+
+                        
+                          <t t-call="fleet_portal.navbar"/>
+
+                         <t t-call="fleet_portal.sidebar"/>
+                        <div class="content-wrapper">
+                            <div class="content-header">
+                                <div class="container-fluid">
+                                    <div class="row mb-2">
+                                        <div class="col-sm-6">
+                                            <h1 class="m-0">Fleets</h1>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+                                <t t-call="portal.portal_searchbar">
+                                    <t t-set="title">Fleets</t>
+                                </t>
+
+                            <section t-attf-class="content {{'' if page_name=='fleet' else 'd-none'}}">
+                                <div class="container-fluid">
+            
+
+           
+           
+            <t t-if="fleet_ids" t-call="portal.portal_table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Plate No
+                                    
+                            </th>
+                            <th>Plate image</th>
+                            <th>Barcode </th>
+                            <th>Serial number</th>
+                            
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <t t-foreach="fleet_ids" t-as="fleet">
+                        <tr>
+                           <td>
+                                <a t-attf-href="/request/{{ slug(fleet) }}" t-att-title="fleet.license_plate">
+                                    <t t-esc="fleet.license_plate" t-if="fleet.license_plate"/>
+                                    <em t-else="">Name</em>
+                                </a>
+                            </td>
+                            <td><t t-esc="fleet.category_id.name"/></td>
+                            
+
+                            
+                            
+                        </tr>
+                    </t>
+                </t>
+
+             <t t-if="not fleet_ids">
+                 <br/>
+                 <br/>
+                 <center><h2 style="margin: auto;">There are currently no Fleets for your account.</h2></center>
+            </t>
+        </div>
+    </section>
+
+</div>
+ <t t-call="fleet_portal.footer"/>
+</div>
+</t>
+
+        </t>
+    </template-->
+
+    </data>
+</odoo>

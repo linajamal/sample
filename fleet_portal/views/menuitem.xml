@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="action_ess_portal" model="ir.actions.act_url">
+            <field name="name">fleet's  Portal</field>
+            <field name="url">/portal</field>
+            <field name="target">self</field>
+        </record>
+
+        <menuitem name="Vendor's Portal"
+        id="menu_ess_portal"
+        web_icon="fleet_portal,static/description/icon.png"
+        sequence="100" action="action_ess_portal"
+        />
+
+    </data>
+
+</odoo>

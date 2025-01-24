@@ -1,0 +1,61 @@
+{
+    'name': 'Fleet Portal Base',
+    'version': '18.0',
+    'author': 'Lina Jamal',
+    'images': [],
+    'license': 'OPL-1',
+    'category':  'Website/Portal',
+    'depends': ['base', 'portal', 'web','fleet','account'],
+    'assets': {
+        #'web.assets_frontend': [
+        #    'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&#38;display=fallback',
+        #    'fleet_portal/static/src/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
+        #    'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css',
+        #        'fleet_portal/static/src/plugins/icheck-bootstrap/icheck-bootstrap.min.css',
+        #        'fleet_portal/static/src/plugins/jqvmap/jqvmap.min.css',
+        #        'fleet_portal/static/src/dist/css/adminlte.min.css',
+        #        'fleet_portal/static/src/plugins/overlayScrollbars/css/OverlayScrollbars.min.css',
+        #        'fleet_portal/static/src/plugins/daterangepicker/daterangepicker.css',
+        #        'fleet_portal/static/src/plugins/summernote/summernote-bs4.min.css',
+        #        'fleet_portal/static/src/css/style.css',
+        #        'fleet_portal/static/src/plugins/sparklines/sparkline.js',
+        #        'fleet_portal/static/src/plugins/jqvmap/jquery.vmap.min.js',
+        #        'fleet_portal/static/src/plugins/jqvmap/maps/jquery.vmap.usa.js',
+        #        'fleet_portal/static/src/plugins/jquery-knob/jquery.knob.min.js',
+        #        'fleet_portal/static/src/plugins/daterangepicker/daterangepicker.js',
+        #        'fleet_portal/static/src/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js',
+        #        'fleet_portal/static/src/dist/js/adminlte.js',
+        #        #'fleet_portal/static/src/dist/js/demo.js',
+        #        #'fleet_portal/static/src/js/hr_leave.js',
+        #        #'fleet_portal/static/src/js/hr_employee_loan.js',
+##
+        #    
+        #    
+        #],
+        'web.assets_frontend': [
+            'portal_attachment/static/src/js/project_task.js',
+        ],
+        },
+    
+    
+    'data': [
+        'security/ir.model.access.csv',
+        'views/portal_templates.xml',
+        'views/index.xml',
+        'views/fleets.xml',
+        'views/fleet_form_view.xml',
+        'views/menuitem.xml',
+        'views/service_form_view.xml',
+        #'views/profile.xml',
+        #'views/locations.xml',
+        #'views/maintenance.xml',
+        #'views/portal_punishment.xml',
+        #'views/stock_pickings.xml',
+        #'views/picking_form.xml',
+        #'views/assets.xml',
+        #'views/equipment_count.xml',
+        #'views/eq_count_form_view.xml',
+    ],
+    'installable': True,
+    'auto_install': False,
+}

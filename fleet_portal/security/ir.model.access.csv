@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fleet_vehicle,fleet,fleet.model_fleet_vehicle,base.group_portal,1,1,0,0
+access_fleet_services,fleet_services,fleet.model_fleet_vehicle_log_services,base.group_portal,1,1,0,0
+access_fleet_service_types,fleet_ser_type,fleet.model_fleet_service_type,base.group_portal,1,1,0,0
+access_fleet_attachments,fleet_attach,base.model_ir_attachment,base.group_portal,1,1,1,0

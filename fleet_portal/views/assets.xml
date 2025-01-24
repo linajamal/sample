@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+    <template id="portal_assets_frontend" inherit_id="portal.frontend_layout">
+        <xpath expr="." position="inside">
+
+            <!-- Google Font: Source Sans Pro -->
+            <link rel="stylesheet"
+                  href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&#38;display=fallback"/>
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href="/fleet_portal/static/src/plugins/fontawesome-free/css/all.min.css"/>
+            <!-- Ionicons -->
+            <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+            <!-- Tempusdominus Bootstrap 4 -->
+            <link rel="stylesheet"
+                  href="/fleet_portal/static/src/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"/>
+            <!-- iCheck -->
+            <link rel="stylesheet" href="/fleet_portal/static/src/plugins/icheck-bootstrap/icheck-bootstrap.min.css"/>
+            <!-- JQVMap -->
+            <link rel="stylesheet" href="/fleet_portal/static/src/plugins/jqvmap/jqvmap.min.css"/>
+            <!-- Theme style -->
+            <link rel="stylesheet" href="/fleet_portal/static/src/dist/css/adminlte.min.css"/>
+            <!-- overlayScrollbars -->
+            <link rel="stylesheet"
+                  href="/fleet_portal/static/src/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"/>
+            <!-- Daterange picker -->
+            <link rel="stylesheet" href="/fleet_portal/static/src/plugins/daterangepicker/daterangepicker.css"/>
+            <!-- summernote -->
+            <link rel="stylesheet" href="/fleet_portal/static/src/plugins/summernote/summernote-bs4.min.css"/>
+            <link rel="stylesheet" href="/fleet_portal/static/src/css/style.css"/>
+
+            <!-- jQuery -->
+            <!--            <script type="text/javascript" src="/fleet_portal/static/src/plugins/jquery/jquery.min.js"/>-->
+            <!-- jQuery UI 1.11.4 -->
+            <!--            <script type="text/javascript" src="/fleet_portal/static/src/plugins/jquery-ui/jquery-ui.min.js"/>-->
+            <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+            <!--            <script type="text/javascript">-->
+            <!--              $.widget.bridge('uibutton', $.ui.button)-->
+            <!--            </script>-->
+            <!-- Bootstrap 4 -->
+            <!--            <script type="text/javascript" src="/fleet_portal/static/src/plugins/bootstrap/js/bootstrap.bundle.min.js"/>-->
+            <!-- Sparkline -->
+            <!--            <script src="/fleet_portal/static/src/plugins/chart.js/Chart.min.js"/>-->
+
+            <script type="text/javascript" src="/fleet_portal/static/src/plugins/sparklines/sparkline.js"/>
+            <!-- JQVMap -->
+            <script type="text/javascript" src="/fleet_portal/static/src/plugins/jqvmap/jquery.vmap.min.js"/>
+            <script type="text/javascript" src="/fleet_portal/static/src/plugins/jqvmap/maps/jquery.vmap.usa.js"/>
+            <!-- jQuery Knob Chart -->
+            <script type="text/javascript" src="/fleet_portal/static/src/plugins/jquery-knob/jquery.knob.min.js"/>
+            <!-- daterangepicker -->
+            <!--            <script type="text/javascript" src="/fleet_portal/static/src/plugins/moment/moment.min.js"/>-->
+            <script type="text/javascript"
+                    src="/fleet_portal/static/src/plugins/daterangepicker/daterangepicker.js"/>
+            <!-- Tempusdominus Bootstrap 4 -->
+            <!--            <script type="text/javascript"-->
+            <!--                    src="/fleet_portal/static/src/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"/>-->
+            <!-- Summernote -->
+            <!--            <script type="text/javascript"-->
+            <!--                    src="/fleet_portal/static/src/plugins/summernote/summernote-bs4.min.js"/>-->
+            <!-- overlayScrollbars -->
+            <script type="text/javascript"
+                    src="/fleet_portal/static/src/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"/>
+            <!-- AdminLTE App -->
+            <script type="text/javascript" src="/fleet_portal/static/src/dist/js/adminlte.js"/>
+            <!--             AdminLTE for demo purposes-->
+                        <script type="text/javascript" src="/fleet_portal/static/src/dist/js/demo.js"></script>
+            <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!--            <script type="text/javascript" src="/fleet_portal/static/src/dist/js/pages/dashboard.js"/>-->
+            <script type="text/javascript" src="/fleet_portal/static/src/js/hr_leave.js"/>
+            <script type="text/javascript" src="/fleet_portal/static/src/js/hr_employee_loan.js"/>
+
+        </xpath>
+
+    </template>
+</data>
+</odoo>

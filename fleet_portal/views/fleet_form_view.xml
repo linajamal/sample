@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+<template id="fleet_details_template" name="Portal Record Edit">
+    <t t-call="portal.portal_layout">
+        <div class="container">
+            <h1>View/Edit Record</h1>
+            <form method="POST" t-attf-action="/request/#{ slug(fleet) }">
+            <input type="hidden" name="csrf_token"
+                                       t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="record" t-att-value="fleet.id if fleet else None"/>
+            <input type="hidden" name="redirect" t-att-value="redirect"/>
+                
+                <div t-attf-class="mb-3 col-xl-6">
+                    <label class="col-form-label" for="serial_no">License plate</label>
+                    <input type="text" name="license_plate" t-attf-class="form-control " t-att-value="fleet.license_plate"/>
+                </div>
+                
+                <div class="clearfix" /> 
+        <!--div t-attf-class="mb-3 #{error.get('ser') and 'o_has_error' or ''} col-xl-6"-->
+        <div t-attf-class="mb-3 col-xl-6">
+            <label class="col-form-label" for="serial_no">Serial number</label>
+            <input type="text" name="serial_no" t-attf-class="form-control " t-att-value="fleet.vehicle_serial_number"/>
+        </div>
+        <!--div t-attf-class="mb-3 #{error.get('city') and 'o_has_error' or ''} col-xl-6"-->
+        <div t-attf-class="mb-3 col-xl-6">
+            <label class="col-form-label" for="plate_words">Plate in words</label>
+            <input type="text" name="Plate_words" t-attf-class="form-control " t-att-value="fleet.vehicle_plate_word" />
+        </div>
+        <!--div t-attf-class="mb-3 #{error.get('zip') and 'o_has_error' or ''} col-xl-6"-->
+        <div t-attf-class="mb-3 col-xl-6">
+            <label class="col-form-label label-optional" for="image">plate image</label>
+            <select  name="image" t-attf-class="form-control" t-att-value="fleet.plate_image" >
+                <option value="">image...</option>
+                    <option value="url" >
+                    url
+                    </option>
+                    <option value="attach" >
+                    attach
+                    </option>
+            </select>
+        </div>
+        <div class="o_project_portal_attachments">
+                   <h5 class="mb-1">Attachments</h5>
+                   <hr class="mt-1 mb-2"/>
+                   <div class="row">
+                       <t t-foreach="fleet.plate_image_attachment" t-as="attachment">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="oe_attachments">
+                                    <a t-attf-href="/web/content/#{attachment.id}?download=true&amp;access_token=#{attachment.access_token}"
+                                    target="_blank" data-no-post-process="" class="d-flex align-items-center rounded bg-light p-2">
+                                        <div class='oe_attachment_embedded o_image o_image_small me-2 me-lg-3'
+                                            t-att-title="attachment.name" t-att-data-mimetype="attachment.mimetype"
+                                            t-attf-data-src="/web/image/#{attachment.id}/50x40?access_token=#{attachment.access_token}">
+                                        </div>
+                                        <div class='oe_attachment_name text-truncate'><t t-esc='attachment.name'/></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </t>
+                   </div>
+                   <div class="text-center add_attachments">
+                       <form action="/upload/vehicle/attachment/#{ slug(fleet) }" method="post" enctype="multipart/form-data">
+                           <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                           <input type="hidden" name="fleet" t-att-value="fleet" />
+                           <span style="display:contents"><button class="btn btn-link" type="button" id="chooseFile"><i class="fa fa-plus-square"></i> Attach files </button></span>
+                           <input type="file" name="add_attachment" class="add_attachment" accept="*" style="display:none;"/>
+                           <input type="submit" name="submit" style="display:none;"/>
+                       </form>
+                   </div>
+                   </div>
+        <div class="form-group">
+            <label for="url">URL</label>
+            <input type="text" name="url" t-att-value="fleet.plate_image_url" class="form-control"/>
+        </div>
+
+        <select id="barcode_id"
+            name="barcode_id"
+            class="form-control col-md-8 o_required_modifier">
+            <t t-set="barcodes" t-value="request.env['merge.device'].sudo().search([('state', '=', 'merged')])"/>
+            
+            <t t-foreach="barcode" t-as="barcodes">
+                <option t-att-selected="barcode.id" t-att-value="barcode.id">
+                    <t t-esc="barcode.name"/>
+                </option>
+            </t>
+        </select>
+
+         <section t-if=" fleet.customer_signature" id="signature" name="Signature">
+                <div class="row mt-4" name="signature">
+                    <div t-attf-class="#{'col-3' if report_type != 'html' else 'col-sm-7 col-md-4'} ms-auto text-center">
+                        <h5>Signature</h5>
+                        <img t-att-src="image_data_uri(fleet.customer_signature)" style="max-height: 6rem; max-width: 100%;"/>
+                    </div>
+                </div>
+            </section>
+            <a t-if="not fleet.customer_signature" role="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalaccept" href="#">
+                                    <i class="fa fa-check"/><t> Accept &amp; Sign</t>
+                                </a>
+                                <div role="dialog" class="modal fade" id="modalaccept" name="modal_sign">
+                        <div class="modal-dialog" >
+                            <form id="accept" method="POST" t-att-data-order-id="fleet.id" class="js_accept_json modal-content js_website_submit_form">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <header class="modal-header">
+                                    <h4 class="modal-title">Validate Order</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </header>
+                                <main class="modal-body" id="sign-dialog">
+                                    <span>
+                                        By signing, you confirm acceptance on behalf of
+                                    </span>
+                                    <t t-call="portal.signature_form">
+                                        <t t-set="call_url" t-value="fleet.get_portal_url(suffix='/accept')"/>
+                                        <t t-set="default_name" t-value="fleet.vehicle_id"/>
+                                    </t>
+                                </main>
+                            </form>
+                        </div>
+                        </div>
+        <!--div t-attf-class="mb-3 #{error.get('country_id') and 'o_has_error' or ''} col-xl-6">
+            <label class="col-form-label" for="barcode">Country</label>
+            <select name="barcode" t-attf-class="form-select " >
+                <option value="">Barcode...</option>
+                <t t-foreach="barcodes or []" t-as="rec">
+                    <option t-att-value="rec.id" t-att-selected="rec.id == int(barcode) if barcode else rec.id == fleet.barcode.id">
+                        <t t-esc="rec.name" />
+                    </option>
+                </t>
+            </select>
+            <small t-if="not partner_can_edit_vat" class="form-text text-muted d-block d-xl-none">Changing the country is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small>
+        </div-->
+
+                <!-- Submit button for saving changes -->
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+            
+       
+        </div>
+    </t>
+</template>
+<!--template id="fleet_details_template">
+        <t t-call="portal.portal_layout">
+            <t t-set="additional_title">Contact Details</t>
+            <form action="/fleet/form/update/#{slug(fleet)}/" method="post">
+                <div class="row o_portal_details">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <t t-call="portal.portal_my_details_fields"/>
+                            <input type="hidden" name="redirect" t-att-value="redirect"/>
+                        </div>
+                        <div class="clearfix text-end mb-5">
+                            <a href="/my/" class="btn btn-light me-2">
+                                Discard
+                            </a>
+                            <button type="submit" class="btn btn-primary float-end">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </t>
+    </template-->
+
+<!--template id="fleet_details_template" name="fleet Details">
+
+            <t t-call="portal.frontend_layout">
+                   <t t-if="portal">
+
+                    <div class="wrapper o_portal_wrap">
+                          <t t-call="fleet_portal.navbar"/>
+
+                         <t t-call="fleet_portal.sidebar"/>
+
+                 <div class="content-wrapper">
+                            <div class="content-header">
+                                <div class="container-fluid">
+                                    <div class="row mb-2">
+                                        <div class="col-sm-6">
+                                            <h1 class="m-0">fleet-Details</h1>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <ol class="breadcrumb float-sm-right">
+                                                <li class="breadcrumb-item">
+                                                    <a href="/portal">Home</a>
+                                                </li>
+                                                 <li class="breadcrumb-item">
+                                                    <a href="/get/fleets">fleets</a>
+                                                </li>
+                                                <li class="breadcrumb-item active">Details</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                      <section t-attf-class="content">
+                                <div class="container-fluid">
+
+                <t t-call="portal.portal_layout">
+                    <t t-set="card_header">
+                        <div class="row no-gutters">
+                            <div class="col-md">
+                                <h5 class="d-flex mb-1 mb-md-0">
+                                    <div class="col-6 text-truncate">
+                                        <small t-if="page_name=='fleet-details'" class="text-muted ">(#<span t-field="fleet.license_plate"/>)
+                                        </small>
+                                    </div>
+                                     <div t-if="page_name=='fleet-details'" class="col-3 text-right">
+                                        <small class="text-right">Status:</small>
+                                        
+                                    </div>
+                                </h5>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-set="card_body">
+                        <div class="row">
+                        <div class="box-body col-6">
+                        <form t-attf-action="/fleet/form/update/#{slug(fleet)}/" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token"
+                                       t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="record" t-att-value="fleet.id if fleet else None"/>
+
+                            <div class="row o_portal_details">
+                                <div class="col-lg-8">
+                                    <div class="row">
+                                        <t t-call="fleet_portal.portal_my_details_fields"/>
+                                        <input type="hidden" name="redirect" t-att-value="redirect"/>
+                                    </div>
+                                    <div class="clearfix text-end mb-5">
+                                        <a href="/get/fleets" class="btn btn-secondary me-2">
+                                            Discard
+                                        </a>
+                                        <button type="submit" class="btn btn-primary float-end">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                            
+
+                        </div>
+
+                        </div>
+                    </t>
+                </t>
+                                </div>
+                      </section>
+                 </div>
+
+                    <aside class="control-sidebar control-sidebar-dark">
+
+                    </aside>
+                    </div>
+                   </t>
+
+
+            </t>
+
+
+        </template-->
+
+        
+                            <!--div t-if="page_name=='fleet-details'">
+
+                                <div class="row col-md-12">
+                                    <div class="col-md-6 duration_from_display_div">
+                                           <label id="fleet_type_label" for="holiday_status_id">
+                                           fleet Type
+                                           </label>
+                                           <div style="position:relative;float:right"><input type="text" class="file"
+                                           name="fleet_type_display"
+                                           id="fleet_type_display"
+                                           t-att-value="fleet.category_id.name if fleet.category_id else None" readonly="1"/></div>
+                                    </div>
+                                </div>
+                              <br/>
+                                <div class="row col-md-12">
+                                    <div class="col-md-6 duration_from_display_div">
+                                           <label id="fleet_atachment_label" for="holiday_id">
+                                           Attachment
+                                         </label>
+                                           <div style="position:relative;float:right"  t-if="page_name=='new_fleet'" ><input type="file" class="form-control"
+                                           name="attachment"
+                                           id="attachment"
+                                          t-att-value="fleet.attachment if fleet.attachment else None" readonly="1"/></div>
+                                        
+                                    </div>
+                                    
+                                    <t t-foreach="fleet.attachment" t-as="attach" t-if="page_name=='fleet-details'">
+                                                    <a t-att-href="'/attachment/download?attachment_id=%i' % attach.id">
+                                                        <span t-esc="attach.name" class="fa fa-download"/>
+                                                    </a>
+                                                <br/>
+                                            </t>
+                               </div>
+                                <br/>
+                                <div class="row col-md-12">
+                                    <div class="col-md-6 duration_from_display_div">
+                                        <label for="request_date_label">Request Date</label>
+                                        <div style="position:relative;float:right">
+                                        <input type="datetime" class="form-control"
+                                           min="2010-01-01"
+                                           name="create_date_display"
+                                           id="create_date_display"
+                                           t-att-value="fleet.create_date.date() if fleet.create_date else None"
+                                           data-date-format="MM/dd/yyyy"
+                                           placeholder="YYYY-MM-DD" readonly="1"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                        </div-->
+
+        
+    <template id="portal_my_details_fields">
+        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+        <div t-if="error_message" class="alert alert-danger" role="alert">
+            <div class="col-lg-12">
+                <t t-foreach="error_message" t-as="err"><t t-esc="err"/><br /></t>
+            </div>
+        </div>
+        <!--div t-if="not partner_can_edit_vat" class="col-12 d-none d-xl-block">
+            <small class="form-text text-muted">
+                Company name, VAT Number and country can not be changed once document(s) have been issued for your account.
+                <br/>Please contact us directly for that operation.
+            </small>
+        </div-->
+        <div t-attf-class="mb-3 or ''} col-xl-6">
+            <label class="col-form-label" for="name">Name</label>
+            <input type="text" name="name" t-attf-class="form-control or ''}" t-att-value="name or fleet.manager_id.name" />
+        </div>
+        <!-- <div t-attf-class="mb-3 #{error.get('email') and 'o_has_error' or ''} col-xl-6"> -->
+            <!-- <label class="col-form-label" for="email">Email</label> -->
+            <!-- <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="email or partner.email" /> -->
+        <!-- </div> -->
+<!--  -->
+        <!-- <div class="clearfix" /> -->
+        <!-- <div t-attf-class="mb-1 #{error.get('company_name') and 'o_has_error' or ''} col-xl-6"> -->
+            <!-- <label class="col-form-label label-optional" for="company_name">Company Name</label> -->
+            <!-- The <input> use "disabled" attribute to avoid sending an unauthorized value on form submit. -->
+                 <!-- The user might not have rights to change company_name but should still be able to see it. -->
+            <!-- --> 
+            <!-- <input type="text" name="company_name" t-attf-class="form-control #{error.get('company_name') and 'is-invalid' or ''}" t-att-value="company_name or partner.commercial_company_name" t-att-disabled="None if partner_can_edit_vat else '1'" /> -->
+            <!-- <small t-if="not partner_can_edit_vat" class="form-text text-muted d-block d-xl-none"> -->
+                <!-- Changing company name is not allowed once document(s) have been issued for your account. Please contact us directly for this operation. -->
+            <!-- </small> -->
+        <!-- </div> -->
+        <!-- <div t-attf-class="mb-1 #{error.get('vat') and 'o_has_error' or ''} col-xl-6"> -->
+            <!-- <label class="col-form-label label-optional" for="vat">VAT Number</label> -->
+            <!-- The <input> use "disabled" attribute to avoid sending an unauthorized value on form submit. -->
+                 <!-- The user might not have rights to change company_name but should still be able to see it. -->
+            <!-- --> 
+            <!-- <input type="text" name="vat" t-attf-class="form-control #{error.get('vat') and 'is-invalid' or ''}" t-att-value="vat or partner.vat" t-att-disabled="None if partner_can_edit_vat else '1'" /> -->
+            <!-- <small t-if="not partner_can_edit_vat" class="form-text text-muted d-block d-xl-none">Changing VAT number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small> -->
+        <!-- </div> -->
+        <!-- <div t-attf-class="mb-3 #{error.get('phone') and 'o_has_error' or ''} col-xl-6"> -->
+            <!-- <label class="col-form-label" for="phone">Phone</label> -->
+            <!-- <input type="tel" name="phone" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="phone or partner.phone" /> -->
+        <!-- </div> -->
+<!--  -->
+        <!-- <div class="clearfix" /> -->
+        <!-- <div t-attf-class="mb-3 #{error.get('street') and 'o_has_error' or ''} col-xl-6"> -->
+            <!-- <label class="col-form-label" for="street">Street</label> -->
+            <!-- <input type="text" name="street" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" t-att-value="street or partner.street"/> -->
+        <!-- </div> -->
+        <!-- <div t-attf-class="mb-3 #{error.get('city') and 'o_has_error' or ''} col-xl-6"> -->
+            <!-- <label class="col-form-label" for="city">City</label> -->
+            <!-- <input type="text" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="city or partner.city" /> -->
+        <!-- </div> -->
+        <!-- <div t-attf-class="mb-3 #{error.get('zip') and 'o_has_error' or ''} col-xl-6"> -->
+            <!-- <label class="col-form-label label-optional" for="zipcode">Zip / Postal Code</label> -->
+            <!-- <input type="text" name="zipcode" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="zipcode or partner.zip" /> -->
+        <!-- </div> -->
+        <!-- <div t-attf-class="mb-3 #{error.get('country_id') and 'o_has_error' or ''} col-xl-6"> -->
+            <!-- <label class="col-form-label" for="country_id">Country</label> -->
+            <!-- <select name="country_id" t-attf-class="form-select #{error.get('country_id') and 'is-invalid' or ''}" t-att-disabled="None if partner_can_edit_vat else '1'"> -->
+                <!-- <option value="">Country...</option> -->
+                <!-- <t t-foreach="countries or []" t-as="country"> -->
+                    <!-- <option t-att-value="country.id" t-att-selected="country.id == int(country_id) if country_id else country.id == partner.country_id.id"> -->
+                        <!-- <t t-esc="country.name" /> -->
+                    <!-- </option> -->
+                <!-- </t> -->
+            <!-- </select> -->
+            <!-- <small t-if="not partner_can_edit_vat" class="form-text text-muted d-block d-xl-none">Changing the country is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small> -->
+        <!-- </div> -->
+        <!-- <div t-attf-class="mb-3 #{error.get('state_id') and 'o_has_error' or ''} col-xl-6"> -->
+            <!-- <label class="col-form-label label-optional" for="state_id">State / Province</label> -->
+            <!-- <select name="state_id" t-attf-class="form-select #{error.get('state_id') and 'is-invalid' or ''}"> -->
+                <!-- <option value="">select...</option> -->
+                <!-- <t t-foreach="states or []" t-as="state"> -->
+                    <!-- <option t-att-value="state.id" style="display:none;" t-att-data-country_id="state.country_id.id" t-att-selected="state.id == int(state_id) if state_id else state.id == partner.state_id.id"> -->
+                        <!-- <t t-esc="state.name" /> -->
+                    <!-- </option> -->
+                <!-- </t> -->
+            <!-- </select> -->
+        <!-- </div> -->
+    <!-- -->
+</template>
+
+
+<!--template id="fleet_form_view" name="fleet">
+            
+                <t t-call="portal.frontend_layout">
+                    <t t-if="portal">
+
+
+                    <div class="wrapper o_portal_wrap" style="overflow:scroll;">
+
+                          <t t-call="fleet_portal.navbar"/>
+
+                         <t t-call="fleet_portal.sidebar"/>
+                        <div class="content-wrapper" style="overflow:scroll;">
+                         
+                            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+                                <t t-call="portal.portal_searchbar">
+                                    <t t-set="title">Fleet</t>
+                                </t>
+
+
+                <form role="form" action="/fleet/form/update" method="POST">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <t t-call="portal.portal_record_layout">
+                    <t t-set="card_header">
+                        <div class="row align-items-center">
+                            <div class="col-md">
+                                <h5 class="mb-0">
+                                   Fleet
+                                 
+
+                                </h5>
+                            </div>
+                            <input type="hidden" name="record" t-att-value="fleet.id if fleet else None"/>
+
+                            <div class="col-md text-md-right  d-flex align-items-end justify-content-end">
+                               
+                                   
+                                
+                                    
+                            </div>
+                        </div>
+                    </t>
+
+                    <t t-set="card_body">
+                        <div class="row no-gutters" style="font-size: 15px;">
+                            <div class="row oe_sub w-100">
+
+                                <div id="date" class="col-md-12">
+                                    <div style="margin: 10px;" class="form-group row date">
+                                        <label class="col-md-2  o_label" for="date">Issue Title</label>
+                                        <input required="required"  t-att-disabled="'disabled'"
+                                            placeholder="Problem of Equipment"
+                                            class="form-control col-md-10 o_required_modifier"
+                                            name="name"
+                                            t-att-value="fleet.name if fleet else None"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="margin: 10px;" class="form-group row equipment_id">
+                                        <label class="col-md-4  o_label" for="equipment_id">
+                                            Equipment
+                                        </label>
+                                        <select id="equipment_id"
+                                            name="equipment_id"  t-att-disabled="'disabled'"
+                                            class="form-control col-md-8 o_required_modifier">
+                                            <t t-set="equipments" t-value="request.env['maintenance.equipment'].sudo().search([])"/>
+                                            <option value=''>Select...</option>
+                                            <t t-foreach="equipments" t-as="equip">
+                                                <option t-att-selected="equip.id == fleet.equipment_id.id if fleet else None" t-att-value="equip.id">
+                                                    <t t-esc="equip.name"/> <t t-esc="equip.serial_no"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div style="margin: 10px;" class="form-group row owner_user_id">
+                                        <label class="col-md-4  o_label" for="owner_user_id">Requested By</label>
+                                        <select id="owner_user_id" name="owner_user_id" class="form-control col-md-8 o_required_modifier" t-att-disabled="'disabled'">
+                                            <option t-att-selected="request.env.user.id" t-att-value="request.env.user.id">
+                                                <t t-esc="request.env.user.name"/>
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div t-if="fleet" id="duration_time" class="col-md-6">
+                                    <div style="margin: 10px;" class="form-group row duration">
+                                        <label class="col-md-4  o_label" for="duration_time">
+                                            Duration (Hours)
+                                        </label>
+                                        <input type="text"
+                                            placeholder="00:00"
+                                            t-att-disabled="'disabled'"
+                                            class="form-control col-md-8 o_required_modifier"
+                                            name="duration_time"
+                                            t-att-value="formated_duration if formated_duration else None"/>
+                                    </div>
+                                </div>
+
+                                <div t-if="fleet" id="date" class="col-md-6">
+                                    <div style="margin: 10px;" class="form-group row date">
+                                        <label class="col-md-4  o_label" for="date">
+                                            Schedule Date
+                                        </label>
+                                        <input type="datetime-local"
+                                            class="form-control col-md-8 o_required_modifier"
+                                            t-att-disabled="'disabled'"
+                                            name="schedule_date"
+                                            t-options='{"widget": "date"}'
+                                            t-att-value="formated_date if formated_date else current_date"/>
+                                    </div>
+                                </div>
+
+                                <div id="request_date" class="col-md-6">
+                                    <div style="margin: 10px;" class="form-group row request_date">
+                                        <label class="col-md-4  o_label" for="date">Request Date</label>
+                                        <input type="text"
+                                            t-att-disabled="'disabled'"
+                                            class="form-control col-md-8 o_required_modifier"
+                                            name="request_date"
+                                            t-att-value="fleet.request_date if fleet else datetime.datetime.today()"/>
+                                    </div>
+                                </div>
+
+                                <t t-if="fleet">
+                                    <div id="close_date" class="col-md-6">
+                                        <div style="margin: 10px;" class="form-group row close_date">
+                                            <label class="col-md-4  o_label" for="date">
+                                                Close Date
+                                            </label>
+                                            <input type="date"
+                                                t-att-disabled="'disabled' if fleet else None"
+                                                class="form-control col-md-8 o_required_modifier"
+                                                name="close_date"
+                                                t-att-value="fleet.close_date if fleet else None"/>
+                                        </div>
+                                    </div>
+                                </t>
+
+                                <div class="col-md-6">
+                                    <div style="margin: 10px;" class="form-group row maintenance_team_id">
+                                        <label class="col-md-4  o_label" for="maintenance_team_id">
+                                            Maintenance Team
+                                        </label>
+                                        <select id="maintenance_team_id"
+                                            name="maintenance_team_id"
+                                            t-att-disabled="'disabled'"
+                                            class="form-control col-md-8 o_required_modifier">
+                                            <t t-set="maintenance_team_id" t-value="request.env['maintenance.team'].sudo().search([])"/>
+                                            <t t-foreach="maintenance_team_id" t-as="mti">
+                                                <option t-att-selected="mti.id == fleet.maintenance_team_id.id if fleet else None" t-att-value="mti.id">
+                                                    <t t-esc="mti.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div t-if="fleet" class="col-md-6">
+                                    <div style="margin: 10px;" class="form-group row user_id">
+                                        <label class="col-md-4  o_label" for="user_id">Responsible</label>
+                                        <select id="user_id" name="user_id" class="form-control col-md-8 o_required_modifier" t-att-disabled="'disabled'">
+                                            <option>
+                                                <t t-esc="fleet.location_id.manager_id.name"/>
+                                            </option>
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                                <div t-if="fleet" class="col-md-6">
+                                    <div style="margin: 10px;" class="form-group row user_id">
+                                        <label class="col-md-4  o_label" for="user_id">Responsible's phone</label>
+                                        <select id="user_id" name="user_id" class="form-control col-md-8 o_required_modifier" t-att-disabled="'disabled'">
+                                            <option>
+                                                <t t-esc="fleet.location_id.manager_id.mobile"/>
+                                            </option>
+                                        </select>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <t t-if="fleet.description">
+                            <div class="row oe_sub w-100">
+                                <div class="col-md-12">
+                                    <div style="margin: 10px;" class="form-group row">
+                                        <label class="col-md-4 o_label">Notes</label>
+                                        <div class="col-md-12">
+                                            <em><t t-esc="fleet.description"/></em>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </t>
+                            <t t-if="fleet.visit_from_date and fleet.visit_date_to">
+                   
+                 </div>                   
+                                  
+
+                            </t>
+                            <br/>
+                            <br/>
+                            <br/>
+
+</div>
+</div>
+</section>
+
+
+                        </div>
+                    </t>
+                </t>
+                </form>
+
+ 
+               
+
+            </div>
+             <t t-call="fleet_portal.footer"/>                
+                 
+        </div>
+
+
+</t>
+</t>
+    </template-->
+
+
+    
+
+</odoo>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="partner_profile_template" name="Vendor Profile">
+
+            <t t-call="portal.frontend_layout">
+                    <div class="wrapper o_portal_wrap">
+                          <!-- Navbar -->
+                          <t t-call="fleet_portal.navbar"/>
+                        <!-- /.navbar -->
+
+                        <!-- Main Sidebar Container -->
+                         <t t-call="fleet_portal.sidebar"/>
+
+                 <div class="content-wrapper">
+                            <!-- Content Header (Page header) -->
+                            <div class="content-header">
+                                <div class="container-fluid">
+                                    <div class="row mb-2">
+                                        <div class="col-sm-6">
+                                            <h1 class="m-0">My Profile</h1>
+                                        </div><!-- /.col -->
+                                        <div class="col-sm-6">
+                                            <ol class="breadcrumb float-sm-right">
+                                                <li class="breadcrumb-item">
+                                                    <a href="/portal">Home</a>
+                                                </li>
+                                                <li class="breadcrumb-item active">Profile</li>
+                                            </ol>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+                                </div><!-- /.container-fluid -->
+                            </div>
+                      <section t-attf-class="content {{'' if page_name=='profile' else 'd-none'}}">
+                                <div class="container-fluid">
+                                      <t t-call="portal.portal_record_layout">
+                    <t t-set="card_header">
+                        <div class="container rounded bg-white mt-5 mb-5">
+                            <div class="row">
+                                <div class="col-md-3 border-right" style="background: #E5E7EB;">
+
+                                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                                        <t t-if="vendor.image_1920">
+                                          <img t-att-src="image_data_uri(vendor.image_1920)" width="150px"
+                                         class="img-profile rounded-circle" alt="User Image"/>
+                                        </t>
+                                         <t t-if="not vendor.image_1920">
+                                        <img class="rounded-circle mt-5" width="150px"
+                                             src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"/>
+                                        </t>
+                                        <span class="font-weight-bold" t-esc="vendor.name"/>
+                                        <!--span><span t-esc="vendor.job_id.name"/></span>
+                                        <span>Vendor No: <span t-esc="vendor.employee_no"/></span-->
+                                    </div>
+                                </div>
+                                <div class="col-md-5 border-right" t-att-readonly="'readonly' if edit_mode==1 else None">
+                                    <div class="p-3 py-5">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h4 class="text-right">Profile Settings</h4>
+                                        </div>
+                                        <!--div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <label class="labels">Arabic Name</label>
+                                                <input type="text" class="form-control" placeholder="first name"
+                                                       t-att-value="vendor.arabic_name" t-att-readonly="'readonly' if edit_mode==1 else None"/>
+                                            </div>
+                                      </div-->
+
+                                         <div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <label class="labels"> Name</label>
+                                                <input type="text" class="form-control" placeholder="first name"
+                                                       t-att-value="vendor.name" t-att-readonly="'readonly' if edit_mode==1 else None"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <label class="labels">Phone</label>
+                                                <input type="text" class="form-control" placeholder="enter phone number"
+                                                       t-att-value="vendor.mobile" t-att-readonly="'readonly' if edit_mode==1 else None"/>
+                                            </div>
+
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <label class="labels">Country</label>
+                                                <input type="text" class="form-control" placeholder="country"
+                                                       t-att-value="vendor.country_id.name" t-att-readonly="'readonly' if edit_mode==1 else None"/>
+                                            </div>
+                                            <!--div class="col-md-6">
+                                                <label class="labels">Passport</label>
+                                                <input type="text" class="form-control" t-att-value="vendor.passport_id" placeholder="state"
+                                                t-att-readonly="'readonly' if edit_mode==1 else None"/>
+                                            </div-->
+                                        </div>
+                                        <div class="mt-5 text-center">
+<!--                                            <button t-attf-class="btn btn-secondary profile-button {{'' if edit_mode==1 else 'd-none'}}" type="button">Save Profile-->
+<!--                                            </button>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="padding-top: 50px;">
+                                   <!-- <div class="p-3 py-5" >
+                                        <div class="col-md-12">
+                                            <label class="labels">Department</label>
+                                            <input type="text" class="form-control" placeholder="experience"
+                                                   t-att-value="vendor.department_id.name" t-att-readonly="'readonly' if edit_mode==1 else None"/>
+                                        </div>
+                                        <br/>
+                                        <div class="col-md-12">
+                                            <label class="labels">Manager</label>
+                                            <input type="text" class="form-control" placeholder="additional details"
+                                                   t-att-value="vendor.parent_id.name" t-att-readonly="'readonly' if edit_mode==1 else None"/>
+                                        </div>-->
+                                        <br/>
+                                        <div class="col-md-12">
+                                            <label class="labels">Email</label>
+                                            <input type="text" class="form-control" placeholder="additional details"
+                                                   t-att-value="vendor.email" t-att-readonly="'readonly' if edit_mode==1 else None"/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        <!--/div-->
+
+                    </t>
+                </t>
+
+
+
+                                </div>
+                      </section>
+                 </div>
+                          <t t-call="fleet_portal.footer"/>
+
+                    <!-- Control Sidebar -->
+                    <aside class="control-sidebar control-sidebar-dark">
+                        <!-- Control sidebar content goes here -->
+
+                    </aside>
+                    </div>
+            </t>
+
+
+        </template>
+    </data>
+</odoo>

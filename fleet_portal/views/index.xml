@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        
+    <template id="fleet_portal_home_home" customize_show="True" name="Portal">
+        <!-- define main website skeleton -->
+        <t t-call="portal.frontend_layout">
+            <t t-if="portal">
+                <div class="wrapper o_portal_wrap" >
+
+                    <!-- Preloader -->
+                    <!--  <div class="preloader flex-column justify-content-center align-items-center">-->
+                    <!--    <img class="animation__shake" src="/fleet_portal/static/src/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60"/>-->
+                    <!--  </div>-->
+
+                    <!-- Navbar -->
+                    <t t-call="fleet_portal.navbar"/>
+                    <!-- /.navbar -->
+                    <!-- Main Sidebar Container -->
+                    <t t-call="fleet_portal.sidebar"/>
+                    <div class="content-wrapper " >
+                    <!-- Content Wrapper. Contains page content -->
+                    <div class="scrollbar-cyan bordered-cyan thin" >
+                        <!-- Content Header (Page header) -->
+                        <div class="content-header">
+                            <div class="container-fluid">
+                                <div class="row mb-2">
+                                    <!--div class="col-sm-6">
+                                        <h1 class="m-0">Dashboard</h1>
+                                    </div--><!-- /.col -->
+                                    <!--div class="col-sm-6">
+                                        <ol class="breadcrumb float-sm-right">
+                                            <li class="breadcrumb-item">
+                                                <a href="#">Home</a>
+                                            </li>
+                                            <li class="breadcrumb-item active">Dashboard</li>
+                                        </ol>
+                                    </div--><!-- /.col -->
+                                </div><!-- /.row -->
+                            </div><!-- /.container-fluid -->
+                        </div>
+                        <!-- /.content-header -->
+
+                        
+
+                        <!-- Main content -->
+                        <section t-attf-class="content {{'' if page_name=='home' else 'd-none'}}">
+                            <div class="container-fluid">
+                                <!-- Small boxes (Stat box) -->
+                                <div class="row">
+                                    
+                                    <!-- ./col -->
+                                     <a href="/get/fleets" class="col-lg-3 col-6">
+                                    <div  >
+                                        <!-- small box -->
+                                        <div class="small-box bg-success" style="background-color:#ffffff!important;">
+                                            <div class="inner">
+                                                <p style="color: black;">Fleets</p>
+                                                <h3 style="color: darkblue;">
+                                                    
+                                                    <t t-esc="request_counts"/>
+                                                </h3>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="ion ion-stats-bars"></i>
+                                            </div>
+                                            <!--a href="/get/maintenance" class="small-box-footer"> 
+                                                More info<i style="color: black;" class="fa fa-arrow-circle-right">
+                                                    
+                                                </i>
+                                            </a-->
+                                        </div>
+                                    </div>
+                                    </a>
+                                    
+                                </div>
+                                <!-- /.row -->
+                                <!-- Main row -->
+                                <div class="row">
+                                    <!-- Left col -->
+                                   
+                                   
+                                </div>
+                                <!-- /.row (main row) -->
+                            </div><!-- /.container-fluid -->
+                        </section>
+                        </div>
+                    </div>
+                    </div>
+                    </t>
+                    </t>
+                    </template>
+
+
+
+    <template id="footer"  name="Portal Footer">
+        <div class="main-footer">
+           
+            <div class="float-right d-none d-sm-inline-block">
+                <t id="language_selector_call" t-call="portal.language_selector">
+                <t t-set="_div_classes" t-value="(_div_classes or '') + ' dropup'"/>
+            </t>
+            </div>
+        </div>
+    </template>
+    
+      <template id="web_header_footer" inherit_id="portal.frontend_layout">
+        <xpath expr="//div[@id='wrapwrap']" position="attributes">
+            <attribute name="t-attf-style" add="overflow-y: scroll;height: 600" separator=";"/>
+        </xpath>
+        <header position="attributes">
+              <attribute name="t-attf-class" add="#{'d-none' if portal else ''}" separator=" "/>
+        </header>
+
+        
+    </template>
+
+    <template id="navbar" name="Navbar">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </li>
+                
+            </ul>
+
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                 
+                    <ul id="top_menu" class="nav navbar-nav ms-auto">
+                            <t t-call="portal.placeholder_user_sign_in">
+                                <t t-set="_item_class" t-value="'nav-item'"/>
+                                <t t-set="_link_class" t-value="'nav-link'"/>
+                            </t>
+                            <t t-call="portal.user_dropdown">
+                                <t t-set="_user_name" t-value="true"/>
+                                <t t-set="_item_class" t-value="'nav-item dropdown'"/>
+                                <t t-set="_link_class" t-value="'nav-link'"/>
+                                <t t-set="_dropdown_menu_class" t-value="'dropdown-menu-end'"/>
+                            </t>
+                        </ul>
+                </li>
+
+
+                <div class="topbar-divider d-none d-sm-block"></div>
+
+           
+              <li class="nav-item">
+        
+      </li>
+            </ul>
+        </nav>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Logout
+                            <i class="fa fa-lock"></i>
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <i class="fa fa-question-circle"></i>
+                        Are you sure you want to log-off?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" t-attf-href="/web/session/logout?redirect=/">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </template>
+
+    <!--template id="my_account_update" name="Link to My account info portal" inherit_id="portal.my_account_link">
+        <xpath expr="//a[contains(@href,'/my/home')]" position="replace">
+            <a href="/my/account" role="menuitem" class="dropdown-item ps-3">
+                <i class="fa fa-fw fa-id-card-o me-1 small text-primary"/> My Account
+            </a>
+        </xpath>
+    </template-->
+
+    <!--template id="portal_my_details_update" name="portal_my_details inherit" inherit_id="portal.portal_my_details">
+    <xpath expr="//form" position="attributes">
+            <attribute name="action">
+        </xpath>
+        
+    </template-->
+
+
+    <template id="sidebar" name="Sidebar">
+        <aside class="main-sidebar  elevation-4" style="height: 112%;position: fixed;background-color:#2b2a2a">
+            <!-- Brand Logo -->
+            <a href="/portal" class="brand-link">
+                <!--img t-att-src="image_data_uri(partner.image_1920)" alt="AdminLTE Logo"
+                     class="brand-image img-circle elevation-3" style="opacity: .8"/>
+                <span class="brand-text font-weight-light">
+                    <t t-esc="partner.name"/>
+                </span-->
+                <img t-att-src="image_data_uri(user.company_id.logo)" 
+                     class="brand-image img-circle elevation-3" style="opacity: .8, width:auto"/>
+                
+            </a>
+            <br/>
+                <h4 class="brand-text font-weight-light" style="text-align:center;color:white" >
+                    <t t-esc="user.company_id.name"/>
+                </h4>
+
+            
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+           
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column nav-treeview" data-widget="treeview" role="menu"
+                        data-accordion="false">
+                        
+                                <li class="nav-item">
+                                    <a href="/portal" class="nav-link active">
+                                        <i class="fa fa-circle nav-icon"></i>
+                                        <p>Dashboard</p>
+                                    </a>
+
+                                </li>
+                             
+                                 <li class="nav-item">
+                                    <a href="/get/fleets" class="nav-link active">
+                                        <i class="fa fa-map-marker nav-icon"></i>
+                                        <p>Fleets</p>
+                                    </a>
+                                </li>
+                               
+                            <!--/ul-->
+                        <!--/li-->
+                    </ul>
+
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+    </template>
+
+
+</odoo>

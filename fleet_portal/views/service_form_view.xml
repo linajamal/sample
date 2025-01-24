@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+<template id="fleet_service_template" name="Portal Record Edit">
+    <t t-call="portal.portal_layout">
+        <div class="container">
+            <h1>Vehicle Services</h1>
+            <form method="POST" t-attf-action="/request/service/#{ slug(service) }">
+            <input type="hidden" name="csrf_token"
+                                       t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="record" t-att-value="service.id if service else None"/>
+            <input type="hidden" name="redirect" t-att-value="redirect"/>
+            <script type="text/javascript">
+                    function showHideInputs() {
+    // Hide all input divs
+    //document.getElementById('deice_warranty_status_div').style.display = none;
+    //document.getElementById('option2-inputs').hidden = true;
+    //document.getElementById('sim_code').hidden = true;
+    // Get the selected option value
+    var selectedOption = document.getElementById('request_status').value;
+    alert(selectedOption)
+    // Show the corresponding input div based on selected option
+    if (selectedOption === 'technical_device_change') {
+      document.getElementById('deice_warranty_status_div').style.display = 'block';
+      document.getElementById('sim').style.display = 'none';
+    //} else if (selectedOption === 'technical_device_change') {
+    //  document.getElementById('option2-inputs').style.display = 'block';
+
+    } else if (selectedOption === 'technical_sim_change') {
+      document.getElementById('sim').style.display = 'block';
+      document.getElementById('deice_warranty_status_div').style.display = 'none';
+    }
+  }
+                </script>
+                
+                <div t-attf-class="mb-3 col-xl-6">
+                    <label class="col-form-label" for="vehicle_id">Vehicle</label>
+                    <input type="text" name="vehicle_id" t-attf-class="form-control " t-att-value="service.vehicle_id.vehicle_id"/>
+                </div>
+
+                
+                <div class="clearfix" /> 
+        <!--div t-attf-class="mb-3 #{error.get('ser') and 'o_has_error' or ''} col-xl-6"-->
+        <div t-attf-class="mb-3 col-xl-6">
+            <label class="col-form-label" for="serial_no">Customer</label>
+            <input type="text" name="customer" t-attf-class="form-control " t-att-value="service.customer_id.name"/>
+        </div>
+        <!--div t-attf-class="mb-3 #{error.get('city') and 'o_has_error' or ''} col-xl-6"-->
+        <div t-attf-class="mb-3 col-xl-6">
+            <label class="col-form-label" for="plate_words"></label>
+            <input type="text" name="Plate_words" t-attf-class="form-control " t-att-value="service.vehicle_plate_word" />
+        </div>
+        <!--div t-attf-class="mb-3 #{error.get('zip') and 'o_has_error' or ''} col-xl-6"-->
+        <div t-attf-class="mb-3 col-xl-6">
+            <label class="col-form-label label-optional" for="request_status">option</label>
+            <select  id= "request_status" name="request_status" t-attf-class="form-control" t-att-value="service.request_status" onchange="showHideInputs()">
+                <option value="">Status...</option>
+                    <option value="technical_no_device_change" >
+                    No change
+                    </option>
+                    <option value="technical_device_change" >
+                    Device change
+                    </option>
+                    <option value="technical_sim_change" >
+                    SIM change
+                    </option>
+            </select>
+        </div>
+        <div id="deice_warranty_status_div" t-attf-class="mb-3 col-xl-6 " style="display:none;">
+            <label class="col-form-label label-optional" for="warranty_status">Warranty status</label>
+            <select  id ="deice_warranty_status" name="deice_warranty_status" t-attf-class="form-control" t-att-value="service.device_warranty_status" >
+                <option value="">Warranty Status...</option>
+                    <option value="bad_usage" >
+                    Bad Usage
+                    </option>
+                    <option value="within_warranty_period" >
+                    Within warranty period
+                    </option>
+                    <option value="without_warranty_period" >
+                    Outside warranty period
+                    </option>
+            </select>
+        </div>
+        <!--div class="form-group">
+            <label for="url">URL</label>
+            <input type="text" name="url" t-att-value="service.plate_image_url" class="form-control"/>
+        </div-->
+        <div id="barcode" t-attf-class="mb-3 col-xl-6 " style="display:none;">
+            <label class="col-form-label label-optional" for="warranty_status">Barcode</label>
+        <select id="barcode_id"
+            name="barcode_id"
+            class="form-control col-md-8 o_required_modifier">
+            <t t-set="barcodes" t-value="request.env['merge.device'].sudo().search([('state', '=', 'merged')])"/>
+            
+            <t t-foreach="barcode" t-as="barcodes">
+                <option t-att-selected="barcode.id" t-att-value="barcode.id">
+                    <t t-esc="barcode.name"/>
+                </option>
+            </t>
+        </select>
+        </div>
+        <div id="sim" t-attf-class="mb-3 col-xl-6" style="display:none;">
+            <label class="col-form-label label-optional" for="warranty_status">SIM</label>
+            <select id="sim_code"
+                name="sim_code"
+                class="form-control col-md-8 o_required_modifier">
+                <t t-set="sims" t-value="request.env['product.template'].sudo().search([])"/>
+                
+                <t t-foreach="sim" t-as="sims">
+                    <option t-att-selected="sim.id" t-att-value="sim.id">
+                        <t t-esc="sim.name"/>
+                    </option>
+                </t>
+            </select>
+        </div>
+
+        <!--div t-attf-class="mb-3 #{error.get('country_id') and 'o_has_error' or ''} col-xl-6">
+            <label class="col-form-label" for="barcode">Country</label>
+            <select name="barcode" t-attf-class="form-select " >
+                <option value="">Barcode...</option>
+                <t t-foreach="barcodes or []" t-as="rec">
+                    <option t-att-value="rec.id" t-att-selected="rec.id == int(barcode) if barcode else rec.id == service.barcode.id">
+                        <t t-esc="rec.name" />
+                    </option>
+                </t>
+            </select>
+            <small t-if="not partner_can_edit_vat" class="form-text text-muted d-block d-xl-none">Changing the country is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small>
+        </div-->
+
+                <!-- Submit button for saving changes -->
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+            
+
+            
+
+        </div>
+    </t>
+</template>
+</odoo>
